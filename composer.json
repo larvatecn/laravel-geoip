@@ -1,5 +1,5 @@
 {
-  "name": "larva/geoip",
+  "name": "larva/laravel-geoip",
   "description": "This is a geoip libraries.",
   "keywords": [ "laravel", "geoip", "larvacms" ],
   "type": "library",
