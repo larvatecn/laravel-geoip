@@ -1,7 +1,7 @@
 {
   "name": "larva/laravel-geoip",
   "description": "This is a geoip libraries.",
-  "keywords": [ "laravel", "geoip", "larvacms" ],
+  "keywords": [ "laravel", "geoip", "larva" ],
   "type": "library",
   "license": "MIT",
   "require": {
