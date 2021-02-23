@@ -187,6 +187,27 @@ class IPInfo implements Contracts\IP
     }
 
     /**
+     * 获取数组
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'ip' => $this->ip,
+            'country_code' => $this->country_code,
+            'CountryName' => $this->getCountryName(),
+            'province' => $this->province,
+            'city' => $this->city,
+            'district' => $this->district,
+            'address' => $this->address,
+            'longitude' => $this->longitude,
+            'latitude' => $this->latitude,
+            'isp' => $this->isp,
+        ];
+    }
+
+    /**
      * 保存到数据库
      */
     public function save()
