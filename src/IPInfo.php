@@ -212,27 +212,27 @@ class IPInfo implements Contracts\IP
      */
     public function save()
     {
-        $ipinfo = [];
+        $ipInfo = [];
         if (!empty($this->country_code)) {
-            $ipinfo['country_code'] = $this->country_code;
+            $ipInfo['country_code'] = $this->country_code;
         }
         if (!empty($this->province)) {
-            $ipinfo['province'] = $this->province;
+            $ipInfo['province'] = $this->province;
         }
         if (!empty($this->city)) {
-            $ipinfo['city'] = $this->city;
+            $ipInfo['city'] = $this->city;
         }
         if (!empty($this->district)) {
-            $ipinfo['district'] = $this->district;
+            $ipInfo['district'] = $this->district;
         }
         if (!empty($this->isp)) {
-            $ipinfo['isp'] = $this->isp;
+            $ipInfo['isp'] = $this->isp;
         }
         if (!empty($this->latitude) && !empty($this->longitude)) {
-            $ipinfo['latitude'] = $this->latitude;
-            $ipinfo['longitude'] = $this->longitude;
+            $ipInfo['latitude'] = $this->latitude;
+            $ipInfo['longitude'] = $this->longitude;
         }
-        GeoIPModel::updateOrCreate(['id' => $this->getId()], $ipinfo);
+        GeoIPModel::updateOrCreate(['id' => $this->getId()], $ipInfo);
         return $this;
     }
 }

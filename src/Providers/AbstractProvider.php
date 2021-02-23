@@ -100,7 +100,7 @@ abstract class AbstractProvider implements ProviderContract
         } else if (($ipInfo = GeoIPModel::getIPInfo($ip)) != false) {
             return $ipInfo;
         } else {
-            return $this->mapIPInfoToObject($this->getIPInfoResponse($ip));
+            return $this->mapIPInfoToObject($this->getIPInfoResponse($ip))->save();
         }
     }
 
