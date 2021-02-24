@@ -196,7 +196,7 @@ class IPInfo implements Contracts\IP
             'id' => $this->getId(),
             'ip' => $this->ip,
             'country_code' => $this->country_code,
-            'CountryName' => $this->getCountryName(),
+            'Country_name' => $this->getCountryName(),
             'province' => $this->province,
             'city' => $this->city,
             'district' => $this->district,
