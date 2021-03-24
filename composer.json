@@ -27,7 +27,7 @@
         "Larva\\GeoIP\\GeoIPServiceProvider"
       ],
       "aliases": {
-        "GeoIP": "Larva\\GeoIP\\Facades\\GeoIP"
+        "GeoIP": "Larva\\GeoIP\\GeoIP"
       }
     }
   },
