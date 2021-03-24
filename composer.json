@@ -1,6 +1,6 @@
 {
   "name": "larva/laravel-geoip",
-  "description": "This is a geoip libraries.",
+  "description": "GeoIP Extension for Laravel.",
   "keywords": [ "laravel", "geoip", "larva" ],
   "type": "library",
   "license": "MIT",
