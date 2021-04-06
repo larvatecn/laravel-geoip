@@ -212,6 +212,9 @@ class IPInfo implements Contracts\IP
      */
     public function save()
     {
+        if (IPHelper::isPrivateForIpV4($this->ip)) {
+            return $this;
+        }
         $ipInfo = [];
         if (!empty($this->country_code)) {
             $ipInfo['country_code'] = $this->country_code;
