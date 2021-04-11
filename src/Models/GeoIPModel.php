@@ -114,10 +114,10 @@ class GeoIPModel extends Model
      *
      * @return string
      */
-    public function getCountryNameAttribute()
+    public function getCountryNameAttribute(): string
     {
         if (!is_null($this->attributes['country_code'])) {
-            return ISO3166::country($this->attributes['country_code'], app()->getLocale());
+            return ISO3166::country($this->attributes['country_code'], \Illuminate\Support\Facades\App::getLocale());
         }
         return '';
     }
@@ -127,7 +127,7 @@ class GeoIPModel extends Model
      *
      * @return string
      */
-    public function getAddressAttribute()
+    public function getAddressAttribute(): string
     {
         if (empty($this->province) && empty($this->city)) {//全空就返回国家
             return $this->countryName;
@@ -144,7 +144,7 @@ class GeoIPModel extends Model
      *
      * @return string
      */
-    public function getLocationAttribute()
+    public function getLocationAttribute(): string
     {
         if (!empty($this->longitude) && !empty($this->latitude)) {
             return $this->longitude . ',' . $this->latitude;
