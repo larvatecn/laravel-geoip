@@ -21,7 +21,6 @@ class CreateGeoipTable extends Migration
             $table->string('city',128)->nullable();//市
             $table->string('district')->nullable();//区
             $table->string('isp')->nullable();//运营商
-            $table->string('isp')->nullable();//运营商
             $table->double('longitude')->nullable()->comment('经度');
             $table->double('latitude')->nullable()->comment('纬度');
         });
