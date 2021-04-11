@@ -22,23 +22,24 @@ use Larva\Support\ISO3166;
  * @property string|null $city 市
  * @property string|null $district 区县
  * @property string|null $isp 运营商
+ * @property string|null $scenario 使用场景
  * @property float|null $latitude 纬度
  * @property float|null $longitude 经度
  *
  * @property-read string $countryName 国家名称
  * @property-read string $address 粗略地址
  * @property-read string $location 经纬度
- * @method static \Illuminate\Database\Eloquent\Builder|GeoIPModel ip($ip)
- * @method static \Illuminate\Database\Eloquent\Builder|GeoIPModel originalIp($ip)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeoIPv4 ip($ip)
+ * @method static \Illuminate\Database\Eloquent\Builder|GeoIPv4 originalIp($ip)
  */
-class GeoIPModel extends Model
+class GeoIPv4 extends Model
 {
     /**
      * 与模型关联的数据表。
      *
      * @var string
      */
-    protected $table = 'geoip';
+    protected $table = 'geo_ipv4';
 
     /**
      * @var bool 时间戳
@@ -159,7 +160,7 @@ class GeoIPModel extends Model
      */
     public static function getIPInfo(string $ip)
     {
-        if (($geoIPModel = GeoIPModel::originalIp($ip)->first()) != null) {
+        if (($geoIPModel = GeoIPv4::originalIp($ip)->first()) != null) {
             $ipInfo = $geoIPModel->toArray();
             return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
         }

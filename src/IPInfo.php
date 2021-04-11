@@ -8,7 +8,7 @@
 
 namespace Larva\GeoIP;
 
-use Larva\GeoIP\Models\GeoIPModel;
+use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\IPHelper;
 use Larva\Support\ISO3166;
 
@@ -235,7 +235,9 @@ class IPInfo implements Contracts\IP
             $ipInfo['latitude'] = $this->latitude;
             $ipInfo['longitude'] = $this->longitude;
         }
-        GeoIPModel::updateOrCreate(['id' => $this->getId()], $ipInfo);
+        if(IPHelper::getIpVersion($this->ip) == IPHelper::IPV4){
+            GeoIPv4::updateOrCreate(['id' => $this->getId()], $ipInfo);
+        }
         return $this;
     }
 }

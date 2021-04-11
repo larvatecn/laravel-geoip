@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\Contracts\Provider as ProviderContract;
 use Larva\GeoIP\IPInfo;
-use Larva\GeoIP\Models\GeoIPModel;
+use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\IPHelper;
 
 /**
@@ -97,7 +97,7 @@ abstract class AbstractProvider implements ProviderContract
         $ip = $ip ?? $this->request->getClientIp();
         if (IPHelper::isPrivateForIpV4($ip)) {
             return $this->getDefaultIPInfo($ip, 'Local IP');
-        } else if (($ipInfo = GeoIPModel::getIPInfo($ip)) != false) {
+        } else if (($ipInfo = GeoIPv4::getIPInfo($ip)) != false) {
             return $ipInfo;
         } else {
             return $this->mapIPInfoToObject($this->getIPInfoResponse($ip));
