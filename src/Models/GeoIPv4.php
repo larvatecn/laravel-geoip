@@ -57,7 +57,7 @@ class GeoIPv4 extends Model
      * @var array 批量赋值属性
      */
     public $fillable = [
-        'id', 'country_code', 'province', 'city', 'district', 'isp', 'longitude', 'latitude'
+        'id', 'country_code', 'province', 'city', 'district', 'isp', 'longitude', 'latitude', 'scenario'
     ];
 
     /**
@@ -160,7 +160,7 @@ class GeoIPv4 extends Model
      */
     public static function getIPInfo(string $ip)
     {
-        if (($geoIPModel = GeoIPv4::originalIp($ip)->first()) != null) {
+        if (($geoIPModel = static::originalIp($ip)->first()) != null) {
             $ipInfo = $geoIPModel->toArray();
             return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
         }
