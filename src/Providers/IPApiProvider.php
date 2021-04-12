@@ -57,8 +57,8 @@ class IPApiProvider extends AbstractProvider
             'city' => $this->formatCity($ipinfo['city']),
             'district' => null,
             'address' => $ipinfo['regionName'] . $ipinfo['city'],
-            'longitude' => $ipinfo['lat'],
-            'latitude' => $ipinfo['lon'],
+            'longitude' => $ipinfo['lon'],
+            'latitude' => $ipinfo['lat'],
             'isp' => $ipinfo['isp'],
         ]);
     }
