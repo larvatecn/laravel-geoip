@@ -10,6 +10,7 @@ namespace Larva\GeoIP\Providers;
 
 use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\IPInfo;
+use Larva\Support\LBSHelper;
 
 /**
  * Class QQ
@@ -53,14 +54,15 @@ class QQProvider extends AbstractProvider
      */
     protected function mapIPInfoToObject(array $ipinfo)
     {
+        list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84($ipinfo['result']['location']['lng'], $ipinfo['result']['location']['lat']);
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $ipinfo['result']['ip'],
             'province' => $this->formatProvince($ipinfo['result']['ad_info']['province']),
             'city' => $this->formatProvince($ipinfo['result']['ad_info']['city']),
             'district' => $this->formatDistrict($ipinfo['result']['ad_info']['district']),
             'address' => $ipinfo['result']['ad_info']['province'] . $ipinfo['result']['ad_info']['city'] . $ipinfo['result']['ad_info']['district'],
-            'longitude' => $ipinfo['result']['location']['lng'],
-            'latitude' => $ipinfo['result']['location']['lat']
+            'longitude' => $longitude,
+            'latitude' => $latitude
         ]);
     }
 

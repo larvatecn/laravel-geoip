@@ -61,13 +61,14 @@ class AMapProvider extends AbstractProvider
     protected function mapIPInfoToObject(array $ipinfo)
     {
         $location = LBSHelper::getCenterFromDegrees(LBSHelper::getAMAPRectangle($ipinfo['rectangle']));
+        list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84($location[0], $location[1]);
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $this->ip,
             'province' => $this->formatProvince($ipinfo['province']),
             'city' => $this->formatCity($ipinfo['city']),
             'address' => $ipinfo['province'] . $ipinfo['city'],
-            'longitude' => $location[0],
-            'latitude' => $location[1],
+            'longitude' => $longitude,
+            'latitude' => $latitude,
         ]);
     }
 }

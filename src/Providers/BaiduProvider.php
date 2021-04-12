@@ -9,6 +9,7 @@
 namespace Larva\GeoIP\Providers;
 
 use Larva\GeoIP\IPInfo;
+use Larva\Support\LBSHelper;
 
 /**
  * 百度地图接口
@@ -56,14 +57,15 @@ class BaiduProvider extends AbstractProvider
      */
     protected function mapIPInfoToObject(array $ipinfo)
     {
+        list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84(doubleval($ipinfo['content']['point']['x']), doubleval($ipinfo['content']['point']['y']));
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $this->ip,
             'province' => $this->formatProvince($ipinfo['content']['address_detail']['province']),
             'city' => $this->formatCity($ipinfo['content']['address_detail']['city']),
             'district' => $this->formatDistrict($ipinfo['content']['address_detail']['district']),
             'address' => $ipinfo['content']['address'],
-            'longitude' => $ipinfo['content']['point']['x'],
-            'latitude' => $ipinfo['content']['point']['y'],
+            'longitude' => $longitude,
+            'latitude' => $latitude,
         ]);
     }
 }
