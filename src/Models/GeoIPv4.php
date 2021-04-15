@@ -154,13 +154,30 @@ class GeoIPv4 extends Model
     }
 
     /**
+     * 获取高精IP位置
+     * @param string $ip
+     * @return false|IPInfo
+     */
+    public static function getPrecisionIPInfo(string $ip)
+    {
+        if (($geoIPModel = static::originalIp($ip)->first()) != null) {
+            $ipInfo = $geoIPModel->toArray();
+            return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
+        }
+        return false;
+    }
+
+    /**
      * 获取IP位置
      * @param string $ip
      * @return false|IPInfo
      */
     public static function getIPInfo(string $ip)
     {
-        if (($geoIPModel = static::originalIp($ip)->first()) != null) {
+        if (config('geoip.precision')) {
+            return static::getPrecisionIPInfo($ip);
+        }
+        if (($geoIPModel = static::ip($ip)->first()) != null) {
             $ipInfo = $geoIPModel->toArray();
             return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
         }
