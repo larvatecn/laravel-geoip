@@ -9,6 +9,7 @@
 namespace Larva\GeoIP\Providers;
 
 use Larva\GeoIP\IPInfo;
+use Larva\GeoIP\Models\GeoIPv4;
 
 /**
  * Class IPInfo
@@ -51,6 +52,12 @@ class IPInfoProvider extends AbstractProvider
     protected function mapIPInfoToObject(array $ipinfo)
     {
         $location = explode(',', $ipinfo['loc']);
+        $ipinfo['isp'] = null;
+        //通过非高精IP查询运营商
+        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipinfo['ip']);
+        if ($fuzzyIPInfo) {
+            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+        }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $ipinfo['ip'],
             'country_code' => $ipinfo['country'],
@@ -60,6 +67,7 @@ class IPInfoProvider extends AbstractProvider
             'address' => $ipinfo['region'] . $ipinfo['city'],
             'longitude' => $location[0],
             'latitude' => $location[1],
+            'isp' => $ipinfo['isp']
         ]);
     }
 }

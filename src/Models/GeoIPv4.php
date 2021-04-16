@@ -168,6 +168,20 @@ class GeoIPv4 extends Model
     }
 
     /**
+     * 获取模糊IP位置
+     * @param string $ip
+     * @return false|IPInfo
+     */
+    public static function getFuzzyIPInfo(string $ip)
+    {
+        if (($geoIPModel = static::ip($ip)->first()) != null) {
+            $ipInfo = $geoIPModel->toArray();
+            return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
+        }
+        return false;
+    }
+
+    /**
      * 获取IP位置
      * @param string $ip
      * @return false|IPInfo
@@ -177,10 +191,6 @@ class GeoIPv4 extends Model
         if (config('geoip.precision')) {
             return static::getPrecisionIPInfo($ip);
         }
-        if (($geoIPModel = static::ip($ip)->first()) != null) {
-            $ipInfo = $geoIPModel->toArray();
-            return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
-        }
-        return false;
+        return static::getFuzzyIPInfo($ip);
     }
 }

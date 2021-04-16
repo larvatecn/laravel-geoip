@@ -10,6 +10,7 @@ namespace Larva\GeoIP\Providers;
 
 use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\IPInfo;
+use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\LBSHelper;
 
 /**
@@ -62,6 +63,12 @@ class AMapProvider extends AbstractProvider
     {
         $location = LBSHelper::getCenterFromDegrees(LBSHelper::getAMAPRectangle($ipinfo['rectangle']));
         list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84($location[0], $location[1]);
+        $ipinfo['isp'] = null;
+        //通过非高精IP查询运营商
+        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
+        if ($fuzzyIPInfo) {
+            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+        }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $this->ip,
             'province' => $this->formatProvince($ipinfo['province']),
@@ -69,6 +76,7 @@ class AMapProvider extends AbstractProvider
             'address' => $ipinfo['province'] . $ipinfo['city'],
             'longitude' => $longitude,
             'latitude' => $latitude,
+            'isp' => $ipinfo['isp']
         ]);
     }
 }

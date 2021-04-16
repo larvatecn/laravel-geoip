@@ -9,6 +9,7 @@
 namespace Larva\GeoIP\Providers;
 
 use Larva\GeoIP\IPInfo;
+use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\LBSHelper;
 
 /**
@@ -58,6 +59,12 @@ class BaiduProvider extends AbstractProvider
     protected function mapIPInfoToObject(array $ipinfo)
     {
         list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84(doubleval($ipinfo['content']['point']['x']), doubleval($ipinfo['content']['point']['y']));
+        $ipinfo['isp'] = null;
+        //通过非高精IP查询运营商
+        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
+        if ($fuzzyIPInfo) {
+            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+        }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $this->ip,
             'province' => $this->formatProvince($ipinfo['content']['address_detail']['province']),
@@ -66,6 +73,7 @@ class BaiduProvider extends AbstractProvider
             'address' => $ipinfo['content']['address'],
             'longitude' => $longitude,
             'latitude' => $latitude,
+            'isp' => $ipinfo['isp']
         ]);
     }
 }
