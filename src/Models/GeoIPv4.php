@@ -31,6 +31,7 @@ use Larva\Support\ISO3166;
  * @property-read string $location 经纬度
  * @method static \Illuminate\Database\Eloquent\Builder|GeoIPv4 ip($ip)
  * @method static \Illuminate\Database\Eloquent\Builder|GeoIPv4 originalIp($ip)
+ * @method static GeoIPv4|null find($id)
  */
 class GeoIPv4 extends Model
 {
@@ -176,6 +177,7 @@ class GeoIPv4 extends Model
     {
         if (($geoIPModel = static::ip($ip)->first()) != null) {
             $ipInfo = $geoIPModel->toArray();
+            $ipInfo['ip'] = $ip;
             return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
         }
         return false;
