@@ -206,7 +206,7 @@ class IPInfo implements Contracts\IP
             'isp' => $this->isp,
         ];
     }
-    
+
     /**
      * 保存到数据库
      * @return IPInfo

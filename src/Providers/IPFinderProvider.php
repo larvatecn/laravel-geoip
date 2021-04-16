@@ -55,7 +55,6 @@ class IPFinderProvider extends AbstractProvider
      */
     protected function mapIPInfoToObject(array $ipinfo)
     {
-        $ipinfo['isp'] = null;
         //通过非高精IP查询运营商
         $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipinfo['ip']);
         if ($fuzzyIPInfo) {

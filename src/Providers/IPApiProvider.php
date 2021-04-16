@@ -10,6 +10,7 @@ namespace Larva\GeoIP\Providers;
 
 use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\IPInfo;
+use Larva\GeoIP\Models\GeoIPv4;
 
 /**
  * Class IPApi
@@ -41,7 +42,6 @@ class IPApiProvider extends AbstractProvider
         return json_decode($response->getBody(), true);
     }
 
-
     /**
      * Map the raw ipinfo array to a IPInfo instance.
      *
@@ -50,6 +50,12 @@ class IPApiProvider extends AbstractProvider
      */
     protected function mapIPInfoToObject(array $ipinfo)
     {
+        $ipinfo['isp'] = null;
+        //通过非高精IP查询运营商
+        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipinfo['query']);
+        if ($fuzzyIPInfo) {
+            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+        }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $ipinfo['query'],
             'country_code' => $this->formatProvince($ipinfo['countryCode']),
