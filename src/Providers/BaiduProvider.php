@@ -60,13 +60,16 @@ class BaiduProvider extends AbstractProvider
     {
         list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84(doubleval($ipinfo['content']['point']['x']), doubleval($ipinfo['content']['point']['y']));
         $ipinfo['isp'] = null;
+        $ipinfo['country_code'] = null;
         //通过非高精IP查询运营商
         $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
         if ($fuzzyIPInfo) {
+            $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $this->ip,
+            'country_code' => $ipinfo['country_code'],
             'province' => $this->formatProvince($ipinfo['content']['address_detail']['province']),
             'city' => $this->formatCity($ipinfo['content']['address_detail']['city']),
             'district' => $this->formatDistrict($ipinfo['content']['address_detail']['district']),

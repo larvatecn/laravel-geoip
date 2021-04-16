@@ -57,13 +57,16 @@ class QQProvider extends AbstractProvider
     {
         list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84($ipinfo['result']['location']['lng'], $ipinfo['result']['location']['lat']);
         $ipinfo['isp'] = null;
+        $ipinfo['country_code'] = null;
         //通过非高精IP查询运营商
         $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipinfo['result']['ip']);
         if ($fuzzyIPInfo) {
+            $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $ipinfo['result']['ip'],
+            'country_code' => $ipinfo['country_code'],
             'province' => $this->formatProvince($ipinfo['result']['ad_info']['province']),
             'city' => $this->formatProvince($ipinfo['result']['ad_info']['city']),
             'district' => $this->formatDistrict($ipinfo['result']['ad_info']['district']),

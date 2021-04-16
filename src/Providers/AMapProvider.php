@@ -64,13 +64,16 @@ class AMapProvider extends AbstractProvider
         $location = LBSHelper::getCenterFromDegrees(LBSHelper::getAMAPRectangle($ipinfo['rectangle']));
         list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84($location[0], $location[1]);
         $ipinfo['isp'] = null;
+        $ipinfo['country_code'] = null;
         //通过非高精IP查询运营商
         $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
         if ($fuzzyIPInfo) {
+            $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
         return (new IPInfo)->setRaw($ipinfo)->map([
             'ip' => $this->ip,
+            'country_code' => $ipinfo['country_code'],
             'province' => $this->formatProvince($ipinfo['province']),
             'city' => $this->formatCity($ipinfo['city']),
             'address' => $ipinfo['province'] . $ipinfo['city'],
