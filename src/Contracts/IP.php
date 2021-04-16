@@ -18,68 +18,68 @@ interface IP
      * 获取IP
      * @return string
      */
-    public function getIp(): string;
+    public function getIp();
 
     /**
      * 获取国家
      *
-     * @return string
+     * @return string|null
      */
-    public function getCountryCode(): string;
+    public function getCountryCode();
 
     /**
      * 获取省
-     * @return string
+     * @return string|null
      */
-    public function getProvince(): string;
+    public function getProvince();
 
     /**
      * 获取市
-     * @return string
+     * @return string|null
      */
-    public function getCity(): string;
+    public function getCity();
 
     /**
      * 获取区县
-     * @return string
+     * @return string|null
      */
-    public function getDistrict(): string;
+    public function getDistrict();
 
     /**
      * 获取地址
-     * @return string
+     * @return string|null
      */
-    public function getAddress(): string;
+    public function getAddress();
 
     /**
      * 获取经度
-     * @return float
+     * @return float|null
      */
-    public function getLongitude(): float;
+    public function getLongitude();
 
     /**
      * 获取维度
-     * @return float
+     * @return float|null
      */
-    public function getLatitude(): float;
+    public function getLatitude();
 
     /**
      * 获取ISP运营商
-     * @return string
+     * @return string|null
      */
-    public function getISP(): string;
+    public function getISP();
 
     /**
      * 获取国家
      *
-     * @return string
+     * @return string|null
      */
-    public function getCountryName(): string;
+    public function getCountryName();
 
     /**
      * 获取经纬度
      *
-     * @return string
+     * @return string|null
      */
-    public function getLocation(): string;
+    public function getLocation();
 }

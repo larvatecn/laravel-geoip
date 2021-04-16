@@ -33,7 +33,7 @@ class IPInfo implements Contracts\IP
      *
      * @var array
      */
-    public $ipInfo;
+    public $ipInfo = [];
 
     /**
      * 获取数字IP
@@ -49,16 +49,16 @@ class IPInfo implements Contracts\IP
      *
      * @return string
      */
-    public function getIp(): string
+    public function getIp()
     {
         return $this->ip;
     }
 
     /**
      * 获取国家代码
-     * @return string
+     * @return string|null
      */
-    public function getCountryCode(): string
+    public function getCountryCode()
     {
         return $this->country_code;
     }
@@ -67,7 +67,7 @@ class IPInfo implements Contracts\IP
      * 获取国家
      * @return string
      */
-    public function getCountryName(): string
+    public function getCountryName()
     {
         if (!empty($this->country_code)) {
             return ISO3166::country($this->country_code);
@@ -79,7 +79,7 @@ class IPInfo implements Contracts\IP
      * 获取省
      * @return string
      */
-    public function getProvince(): string
+    public function getProvince()
     {
         return $this->province;
     }
@@ -88,7 +88,7 @@ class IPInfo implements Contracts\IP
      * 获取城市
      * @return string
      */
-    public function getCity(): string
+    public function getCity()
     {
         return $this->city;
     }
@@ -97,7 +97,7 @@ class IPInfo implements Contracts\IP
      * 获取区县
      * @return string
      */
-    public function getDistrict(): string
+    public function getDistrict()
     {
         return $this->district;
     }
@@ -106,7 +106,7 @@ class IPInfo implements Contracts\IP
      * 获取地址
      * @return string
      */
-    public function getAddress(): string
+    public function getAddress()
     {
         return $this->address;
     }
@@ -115,7 +115,7 @@ class IPInfo implements Contracts\IP
      * 获取经度
      * @return float
      */
-    public function getLongitude(): float
+    public function getLongitude()
     {
         return $this->longitude;
     }
@@ -124,7 +124,7 @@ class IPInfo implements Contracts\IP
      * 获取维度
      * @return float
      */
-    public function getLatitude(): float
+    public function getLatitude()
     {
         return $this->latitude;
     }
@@ -133,7 +133,7 @@ class IPInfo implements Contracts\IP
      * 获取运营商
      * @return string
      */
-    public function getISP(): string
+    public function getISP()
     {
         return $this->isp;
     }
@@ -142,7 +142,7 @@ class IPInfo implements Contracts\IP
      * 获取经纬度
      * @return string
      */
-    public function getLocation(): string
+    public function getLocation()
     {
         if (!empty($this->longitude) && !empty($this->latitude)) {
             return $this->longitude . ',' . $this->latitude;
@@ -206,11 +206,12 @@ class IPInfo implements Contracts\IP
             'isp' => $this->isp,
         ];
     }
-
+    
     /**
      * 保存到数据库
+     * @return IPInfo
      */
-    public function save()
+    public function save(): IPInfo
     {
         if (IPHelper::isPrivateForIpV4($this->ip)) {
             return $this;
