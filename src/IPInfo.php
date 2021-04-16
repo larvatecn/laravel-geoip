@@ -235,7 +235,7 @@ class IPInfo implements Contracts\IP
             $ipInfo['latitude'] = $this->latitude;
             $ipInfo['longitude'] = $this->longitude;
         }
-        if(IPHelper::getIpVersion($this->ip) == IPHelper::IPV4){
+        if (IPHelper::getIpVersion($this->ip) == IPHelper::IPV4) {
             GeoIPv4::updateOrCreate(['id' => $this->getId()], $ipInfo);
         }
         return $this;
