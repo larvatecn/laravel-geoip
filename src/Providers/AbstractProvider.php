@@ -90,14 +90,15 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * 查询IP位置
      * @param string $ip
+     * @param bool $refresh 刷新缓存
      * @return IP
      */
-    public function get(string $ip): IP
+    public function get(string $ip, $refresh = false): IP
     {
         $ip = $ip ?? $this->request->getClientIp();
         if (IPHelper::isPrivateForIpV4($ip)) {
             return $this->getDefaultIPInfo($ip, 'Local IP');
-        } else if (($ipInfo = GeoIPv4::getIPInfo($ip)) != false) {
+        } else if ($refresh == false && ($ipInfo = GeoIPv4::getIPInfo($ip)) != false) {
             return $ipInfo;
         } else {
             return $this->mapIPInfoToObject($this->getIPInfoResponse($ip));

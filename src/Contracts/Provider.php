@@ -17,9 +17,10 @@ interface Provider
     /**
      * 获取IP位置
      * @param string $ip
+     * @param bool $refresh 刷新缓存
      * @return IP
      */
-    public function get(string $ip): IP;
+    public function get(string $ip, $refresh = false): IP;
 
     /**
      * 获取接口返回的原始位置信息
