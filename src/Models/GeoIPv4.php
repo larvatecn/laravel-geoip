@@ -62,13 +62,6 @@ class GeoIPv4 extends Model
     ];
 
     /**
-     * 在数组中隐藏的属性。
-     *
-     * @var array
-     */
-    protected $hidden = ['id'];
-
-    /**
      * 应该被转化为原生类型的属性
      *
      * @var array
