@@ -70,7 +70,7 @@ class IPInfo implements Contracts\IP
     public function getCountryName()
     {
         if (!empty($this->country_code)) {
-            return ISO3166::country($this->country_code);
+            return ISO3166::country($this->country_code, \Illuminate\Support\Facades\App::getLocale());
         }
         return '';
     }
@@ -190,7 +190,7 @@ class IPInfo implements Contracts\IP
      * 获取数组
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id' => $this->getId(),
@@ -208,36 +208,21 @@ class IPInfo implements Contracts\IP
     }
 
     /**
-     * 保存到数据库
-     * @return IPInfo
+     * 更新数据库
+     * @return $this
      */
-    public function save(): IPInfo
+    public function update(): IPInfo
     {
-        if (IPHelper::isPrivateForIpV4($this->ip)) {
+        if (IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
             return $this;
         }
-        $ipInfo = [];
-        if (!empty($this->country_code)) {
-            $ipInfo['country_code'] = $this->country_code;
-        }
-        if (!empty($this->province)) {
-            $ipInfo['province'] = $this->province;
-        }
-        if (!empty($this->city)) {
-            $ipInfo['city'] = $this->city;
-        }
-        if (!empty($this->district)) {
-            $ipInfo['district'] = $this->district;
-        }
-        if (!empty($this->isp)) {
-            $ipInfo['isp'] = $this->isp;
-        }
-        if (!empty($this->latitude) && !empty($this->longitude)) {
-            $ipInfo['latitude'] = $this->latitude;
-            $ipInfo['longitude'] = $this->longitude;
-        }
-        if (IPHelper::getIpVersion($this->ip) == IPHelper::IPV4) {
-            GeoIPv4::updateOrCreate(['id' => $this->getId()], $ipInfo);
+        $ipInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
+        if ($ipInfo && $ipInfo->country_code == $this->country_code && $ipInfo->country_code == $this->province && $ipInfo->city == $this->city) {
+            if (!empty($this->latitude) && !empty($this->longitude)) {
+                $ipInfo->latitude = $this->latitude;
+                $ipInfo->longitude = $this->longitude;
+                $ipInfo->save();
+            }
         }
         return $this;
     }
