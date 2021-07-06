@@ -3,13 +3,11 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use Illuminate\Http\Request;
 use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\Contracts\Provider as ProviderContract;
@@ -33,7 +31,7 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * The HTTP Client instance.
      *
-     * @var ClientInterface
+     * @var Client
      */
     protected $httpClient;
 
@@ -98,7 +96,7 @@ abstract class AbstractProvider implements ProviderContract
         $ip = $ip ?? $this->request->getClientIp();
         if (IPHelper::isPrivateForIpV4($ip)) {
             return $this->getDefaultIPInfo($ip, 'Local IP');
-        } else if ($refresh == false && ($ipInfo = GeoIPv4::getIPInfo($ip)) != false) {
+        } elseif ($refresh == false && ($ipInfo = GeoIPv4::getIPInfo($ip)) != false) {
             return $ipInfo;
         } else {
             return $this->mapIPInfoToObject($this->getIPInfoResponse($ip));
@@ -122,7 +120,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param string $isp
      * @return IP
      */
-    protected function getDefaultIPInfo($ip = '', $isp = ''): IP
+    protected function getDefaultIPInfo(string $ip = '', string $isp = ''): IP
     {
         $ipInfo = [
             'ip' => $ip,
@@ -142,9 +140,9 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Get a instance of the Guzzle HTTP client.
      *
-     * @return ClientInterface
+     * @return Client
      */
-    protected function getHttpClient()
+    protected function getHttpClient(): Client
     {
         if (is_null($this->httpClient)) {
             $this->httpClient = new Client($this->guzzle);
@@ -155,10 +153,10 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set the Guzzle HTTP client instance.
      *
-     * @param ClientInterface $client
+     * @param Client $client
      * @return $this
      */
-    public function setHttpClient(ClientInterface $client)
+    public function setHttpClient(Client $client)
     {
         $this->httpClient = $client;
         return $this;

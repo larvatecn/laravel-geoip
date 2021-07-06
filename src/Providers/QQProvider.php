@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
@@ -53,9 +52,9 @@ class QQProvider extends AbstractProvider
      * @param array $ipinfo
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo)
+    protected function mapIPInfoToObject(array $ipinfo): IP
     {
-        list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84($ipinfo['result']['location']['lng'], $ipinfo['result']['location']['lat']);
+        [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84($ipinfo['result']['location']['lng'], $ipinfo['result']['location']['lat']);
         $ipinfo['isp'] = null;
         $ipinfo['country_code'] = null;
         //通过非高精IP查询运营商
@@ -64,7 +63,7 @@ class QQProvider extends AbstractProvider
             $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo)->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipinfo)->map([
             'ip' => $ipinfo['result']['ip'],
             'country_code' => $ipinfo['country_code'],
             'province' => $this->formatProvince($ipinfo['result']['ad_info']['province']),
@@ -76,5 +75,4 @@ class QQProvider extends AbstractProvider
             'isp' => $ipinfo['isp']
         ]);
     }
-
 }

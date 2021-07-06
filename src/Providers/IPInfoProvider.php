@@ -3,11 +3,11 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
 
+use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\IPInfo;
 use Larva\GeoIP\Models\GeoIPv4;
 
@@ -17,7 +17,6 @@ use Larva\GeoIP\Models\GeoIPv4;
  */
 class IPInfoProvider extends AbstractProvider
 {
-
     /**
      * Get the name for the provider.
      * @return string
@@ -47,9 +46,9 @@ class IPInfoProvider extends AbstractProvider
     /**
      * Map the raw ipinfo array to a IPInfo instance.
      * @param array $ipinfo
-     * @return \Larva\GeoIP\Contracts\IP|void
+     * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo)
+    protected function mapIPInfoToObject(array $ipinfo): IP
     {
         $location = explode(',', $ipinfo['loc']);
         $ipinfo['isp'] = null;
@@ -58,7 +57,7 @@ class IPInfoProvider extends AbstractProvider
         if ($fuzzyIPInfo) {
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo)->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipinfo)->map([
             'ip' => $ipinfo['ip'],
             'country_code' => $ipinfo['country'],
             'province' => $this->formatProvince($ipinfo['region']),

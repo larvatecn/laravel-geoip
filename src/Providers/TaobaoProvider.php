@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
@@ -50,9 +49,9 @@ class TaobaoProvider extends AbstractProvider
      * @param array $ipinfo
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo)
+    protected function mapIPInfoToObject(array $ipinfo): IP
     {
-        return (new IPInfo)->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipinfo)->map([
             'ip' => $ipinfo['data']['ip'],
             'province' => $this->formatProvince($ipinfo['data']['region']),
             'city' => $this->formatProvince($ipinfo['data']['city']),

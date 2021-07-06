@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
@@ -48,7 +47,7 @@ class IPApiProvider extends AbstractProvider
      * @param array $ipinfo
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo)
+    protected function mapIPInfoToObject(array $ipinfo): IP
     {
         $ipinfo['isp'] = null;
         //通过非高精IP查询运营商
@@ -56,7 +55,7 @@ class IPApiProvider extends AbstractProvider
         if ($fuzzyIPInfo) {
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo)->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipinfo)->map([
             'ip' => $ipinfo['query'],
             'country_code' => $this->formatProvince($ipinfo['countryCode']),
             'province' => $this->formatProvince($ipinfo['regionName']),

@@ -17,8 +17,8 @@ class CreateGeoIpv4Table extends Migration
             $table->unsignedInteger('id')->primary();
             $table->ipAddress('ip')->virtualAs('INET_NTOA(id)');//虚拟字段
             $table->string('country_code', 2)->nullable();//国家 ISO3166 代码
-            $table->string('province',128)->nullable();//省
-            $table->string('city',128)->nullable();//市
+            $table->string('province', 128)->nullable();//省
+            $table->string('city', 128)->nullable();//市
             $table->string('district')->nullable();//区
             $table->string('isp')->nullable();//运营商
             $table->string('scenario', 20)->nullable()->comment('使用场景');

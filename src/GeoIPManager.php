@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP;
@@ -37,9 +36,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createAmapDriver()
     {
-        $config = $this->config->get("geoip.drivers.amap", []);
+        $config = $this->config->get('geoip.drivers.amap', []);
         return $this->buildProvider(
-            Providers\AMapProvider::class, $config
+            Providers\AMapProvider::class,
+            $config
         );
     }
 
@@ -50,9 +50,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createBaiduDriver()
     {
-        $config = $this->config->get("geoip.drivers.baidu", []);
+        $config = $this->config->get('geoip.drivers.baidu', []);
         return $this->buildProvider(
-            Providers\BaiduProvider::class, $config
+            Providers\BaiduProvider::class,
+            $config
         );
     }
 
@@ -63,9 +64,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createIpapiDriver()
     {
-        $config = $this->config->get("geoip.drivers.ip-api", []);
+        $config = $this->config->get('geoip.drivers.ip-api', []);
         return $this->buildProvider(
-            Providers\IPApiProvider::class, $config
+            Providers\IPApiProvider::class,
+            $config
         );
     }
 
@@ -76,9 +78,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createIpfinderDriver()
     {
-        $config = $this->config->get("geoip.drivers.ip-finder", []);
+        $config = $this->config->get('geoip.drivers.ip-finder', []);
         return $this->buildProvider(
-            Providers\IPFinderProvider::class, $config
+            Providers\IPFinderProvider::class,
+            $config
         );
     }
 
@@ -89,9 +92,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createIpgeolocationDriver()
     {
-        $config = $this->config->get("geoip.drivers.ip-geolocation", []);
+        $config = $this->config->get('geoip.drivers.ip-geolocation', []);
         return $this->buildProvider(
-            Providers\IPGeoLocationProvider::class, $config
+            Providers\IPGeoLocationProvider::class,
+            $config
         );
     }
 
@@ -102,9 +106,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createIpinfoDriver()
     {
-        $config = $this->config->get("geoip.drivers.ip-info", []);
+        $config = $this->config->get('geoip.drivers.ip-info', []);
         return $this->buildProvider(
-            Providers\IPInfoProvider::class, $config
+            Providers\IPInfoProvider::class,
+            $config
         );
     }
 
@@ -115,9 +120,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createIpipDriver()
     {
-        $config = $this->config->get("geoip.drivers.ipip", []);
+        $config = $this->config->get('geoip.drivers.ipip', []);
         return $this->buildProvider(
-            Providers\IPIPProvider::class, $config
+            Providers\IPIPProvider::class,
+            $config
         );
     }
 
@@ -128,9 +134,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createLibrespeedDriver()
     {
-        $config = $this->config->get("geoip.drivers.librespeed", []);
+        $config = $this->config->get('geoip.drivers.librespeed', []);
         return $this->buildProvider(
-            Providers\LibreSpeedProvider::class, $config
+            Providers\LibreSpeedProvider::class,
+            $config
         );
     }
 
@@ -141,9 +148,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createQqDriver()
     {
-        $config = $this->config->get("geoip.drivers.qq", []);
+        $config = $this->config->get('geoip.drivers.qq', []);
         return $this->buildProvider(
-            Providers\QQProvider::class, $config
+            Providers\QQProvider::class,
+            $config
         );
     }
 
@@ -154,9 +162,10 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     protected function createTaobaoDriver()
     {
-        $config = $this->config->get("geoip.drivers.taobao", []);
+        $config = $this->config->get('geoip.drivers.taobao', []);
         return $this->buildProvider(
-            Providers\TaobaoProvider::class, $config
+            Providers\TaobaoProvider::class,
+            $config
         );
     }
 
@@ -169,7 +178,8 @@ class GeoIPManager extends Manager implements Contracts\Factory
      */
     public function buildProvider(string $provider, array $config)
     {
-        return new $provider($this->container['request'],
+        return new $provider(
+            $this->container['request'],
             Arr::get($config, 'key', ''),
             Arr::get($config, 'guzzle', [])
         );

@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP;
@@ -39,7 +38,7 @@ class IPInfo implements Contracts\IP
      * 获取数字IP
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return IPHelper::ip2Long($this->ip);
     }
@@ -49,7 +48,7 @@ class IPInfo implements Contracts\IP
      *
      * @return string
      */
-    public function getIp()
+    public function getIp(): string
     {
         return $this->ip;
     }
@@ -58,7 +57,7 @@ class IPInfo implements Contracts\IP
      * 获取国家代码
      * @return string|null
      */
-    public function getCountryCode()
+    public function getCountryCode(): ?string
     {
         return $this->country_code;
     }
@@ -67,7 +66,7 @@ class IPInfo implements Contracts\IP
      * 获取国家
      * @return string
      */
-    public function getCountryName()
+    public function getCountryName(): string
     {
         if (!empty($this->country_code)) {
             return ISO3166::country($this->country_code, \Illuminate\Support\Facades\App::getLocale());
@@ -77,63 +76,63 @@ class IPInfo implements Contracts\IP
 
     /**
      * 获取省
-     * @return string
+     * @return string|null
      */
-    public function getProvince()
+    public function getProvince(): ?string
     {
         return $this->province;
     }
 
     /**
      * 获取城市
-     * @return string
+     * @return string|null
      */
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
     /**
      * 获取区县
-     * @return string
+     * @return string|null
      */
-    public function getDistrict()
+    public function getDistrict(): ?string
     {
         return $this->district;
     }
 
     /**
      * 获取地址
-     * @return string
+     * @return string|null
      */
-    public function getAddress()
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
     /**
      * 获取经度
-     * @return float
+     * @return float|null
      */
-    public function getLongitude()
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
     /**
      * 获取维度
-     * @return float
+     * @return float|null
      */
-    public function getLatitude()
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
     /**
      * 获取运营商
-     * @return string
+     * @return string|null
      */
-    public function getISP()
+    public function getISP(): ?string
     {
         return $this->isp;
     }
@@ -142,7 +141,7 @@ class IPInfo implements Contracts\IP
      * 获取经纬度
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         if (!empty($this->longitude) && !empty($this->latitude)) {
             return $this->longitude . ',' . $this->latitude;
@@ -216,6 +215,7 @@ class IPInfo implements Contracts\IP
         if (IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
             return $this;
         }
+        /** @var GeoIPv4 $ipInfo */
         $ipInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
         if ($ipInfo && $ipInfo->country_code == $this->country_code && $ipInfo->country_code == $this->province && $ipInfo->city == $this->city) {
             if (!empty($this->latitude) && !empty($this->longitude)) {

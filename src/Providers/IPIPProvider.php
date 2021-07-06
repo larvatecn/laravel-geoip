@@ -3,11 +3,11 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
 
+use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\IPInfo;
 
 /**
@@ -16,6 +16,11 @@ use Larva\GeoIP\IPInfo;
  */
 class IPIPProvider extends AbstractProvider
 {
+    /**
+     * @var string
+     */
+    public $ip;
+
     /**
      * Get the name for the provider.
      *
@@ -49,14 +54,14 @@ class IPIPProvider extends AbstractProvider
 
     /**
      * @param array $ipinfo
-     * @return IPInfo
+     * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo)
+    protected function mapIPInfoToObject(array $ipinfo): IP
     {
-        $province = isset($ipinfo['data']['gps_district']['province']) ? $ipinfo['data']['gps_district']['province'] : $ipinfo['data']['location']['province'];
-        $city = isset($ipinfo['data']['gps_district']['city']) ? $ipinfo['data']['gps_district']['city'] : $ipinfo['data']['location']['city'];
-        $district = isset($ipinfo['data']['gps_district']['district']) ? $ipinfo['data']['gps_district']['district'] : '';
-        return (new IPInfo)->setRaw($ipinfo)->map([
+        $province = $ipinfo['data']['gps_district']['province'] ?? $ipinfo['data']['location']['province'];
+        $city = $ipinfo['data']['gps_district']['city'] ?? $ipinfo['data']['location']['city'];
+        $district = $ipinfo['data']['gps_district']['district'] ?? '';
+        return (new IPInfo())->setRaw($ipinfo)->map([
             'ip' => $ipinfo['data']['ip'],
             'province' => $this->formatProvince($province),
             'city' => $this->formatCity($city),
@@ -67,4 +72,3 @@ class IPIPProvider extends AbstractProvider
         ]);
     }
 }
-

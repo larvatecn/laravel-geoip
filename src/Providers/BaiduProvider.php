@@ -3,11 +3,11 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\GeoIP\Providers;
 
+use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\IPInfo;
 use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\LBSHelper;
@@ -54,11 +54,11 @@ class BaiduProvider extends AbstractProvider
 
     /**
      * @param array $ipinfo
-     * @return IPInfo
+     * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo)
+    protected function mapIPInfoToObject(array $ipinfo): IP
     {
-        list($longitude, $latitude) = LBSHelper::GCJ02ToWGS84(doubleval($ipinfo['content']['point']['x']), doubleval($ipinfo['content']['point']['y']));
+        [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84(doubleval($ipinfo['content']['point']['x']), doubleval($ipinfo['content']['point']['y']));
         $ipinfo['isp'] = null;
         $ipinfo['country_code'] = null;
         //通过非高精IP查询运营商
@@ -67,7 +67,7 @@ class BaiduProvider extends AbstractProvider
             $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
             $ipinfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo)->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipinfo)->map([
             'ip' => $this->ip,
             'country_code' => $ipinfo['country_code'],
             'province' => $this->formatProvince($ipinfo['content']['address_detail']['province']),
