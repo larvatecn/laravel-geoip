@@ -7,6 +7,8 @@
 
 namespace Larva\GeoIP;
 
+use Illuminate\Support\Facades\App;
+use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\IPHelper;
 use Larva\Support\ISO3166;
@@ -15,9 +17,10 @@ use Larva\Support\ISO3166;
  * IP信息
  * @author Tongle Xu <xutongle@gmail.com>
  */
-class IPInfo implements Contracts\IP
+class IPInfo implements IP
 {
     public $ip;
+
     public $country_code;
     public $address;
     public $province;
@@ -69,7 +72,7 @@ class IPInfo implements Contracts\IP
     public function getCountryName(): string
     {
         if (!empty($this->country_code)) {
-            return ISO3166::country($this->country_code, \Illuminate\Support\Facades\App::getLocale());
+            return ISO3166::country($this->country_code, App::getLocale());
         }
         return '';
     }
@@ -207,12 +210,12 @@ class IPInfo implements Contracts\IP
     }
 
     /**
-     * 更新数据库
+     * 刷新缓存
      * @return $this
      */
-    public function update(): IPInfo
+    public function refreshCache(bool $refresh = false): IP
     {
-        if (IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
+        if ($refresh == false || IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
             return $this;
         }
         /** @var GeoIPv4 $ipInfo */
@@ -221,7 +224,7 @@ class IPInfo implements Contracts\IP
             if (!empty($this->latitude) && !empty($this->longitude)) {
                 $ipInfo->latitude = $this->latitude;
                 $ipInfo->longitude = $this->longitude;
-                $ipInfo->save();
+                $ipInfo->saveQuietly();
             }
         }
         return $this;

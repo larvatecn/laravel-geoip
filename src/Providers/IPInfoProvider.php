@@ -45,28 +45,29 @@ class IPInfoProvider extends AbstractProvider
 
     /**
      * Map the raw ipinfo array to a IPInfo instance.
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        $location = explode(',', $ipinfo['loc']);
-        $ipinfo['isp'] = null;
+        $location = explode(',', $ipInfo['loc']);
+        $ipInfo['isp'] = null;
         //通过非高精IP查询运营商
-        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipinfo['ip']);
+        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipInfo['ip']);
         if ($fuzzyIPInfo) {
-            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+            $ipInfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo())->setRaw($ipinfo)->map([
-            'ip' => $ipinfo['ip'],
-            'country_code' => $ipinfo['country'],
-            'province' => $this->formatProvince($ipinfo['region']),
-            'city' => $this->formatCity($ipinfo['city']),
+        return (new IPInfo())->setRaw($ipInfo)->map([
+            'ip' => $ipInfo['ip'],
+            'country_code' => $ipInfo['country'],
+            'province' => $this->formatProvince($ipInfo['region']),
+            'city' => $this->formatCity($ipInfo['city']),
             'district' => null,
-            'address' => $ipinfo['region'] . $ipinfo['city'],
+            'address' => $ipInfo['region'] . $ipInfo['city'],
             'longitude' => $location[0],
             'latitude' => $location[1],
-            'isp' => $ipinfo['isp']
-        ]);
+            'isp' => $ipInfo['isp']
+        ])->refreshCache($refresh);
     }
 }

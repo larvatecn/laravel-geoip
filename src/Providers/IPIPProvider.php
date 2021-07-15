@@ -53,22 +53,23 @@ class IPIPProvider extends AbstractProvider
     }
 
     /**
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        $province = $ipinfo['data']['gps_district']['province'] ?? $ipinfo['data']['location']['province'];
-        $city = $ipinfo['data']['gps_district']['city'] ?? $ipinfo['data']['location']['city'];
-        $district = $ipinfo['data']['gps_district']['district'] ?? '';
-        return (new IPInfo())->setRaw($ipinfo)->map([
-            'ip' => $ipinfo['data']['ip'],
+        $province = $ipInfo['data']['gps_district']['province'] ?? $ipInfo['data']['location']['province'];
+        $city = $ipInfo['data']['gps_district']['city'] ?? $ipInfo['data']['location']['city'];
+        $district = $ipInfo['data']['gps_district']['district'] ?? '';
+        return (new IPInfo())->setRaw($ipInfo)->map([
+            'ip' => $ipInfo['data']['ip'],
             'province' => $this->formatProvince($province),
             'city' => $this->formatCity($city),
             'district' => $this->formatDistrict($district),
             'address' => $province . $city . $district,
-            'longitude' => $ipinfo['data']['longitude'],
-            'latitude' => $ipinfo['data']['latitude'],
-        ]);
+            'longitude' => $ipInfo['data']['longitude'],
+            'latitude' => $ipInfo['data']['latitude'],
+        ])->refreshCache($refresh);
     }
 }

@@ -53,30 +53,31 @@ class BaiduProvider extends AbstractProvider
     }
 
     /**
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84(doubleval($ipinfo['content']['point']['x']), doubleval($ipinfo['content']['point']['y']));
-        $ipinfo['isp'] = null;
-        $ipinfo['country_code'] = null;
+        [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84(doubleval($ipInfo['content']['point']['x']), doubleval($ipInfo['content']['point']['y']));
+        $ipInfo['isp'] = null;
+        $ipInfo['country_code'] = null;
         //通过非高精IP查询运营商
         $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
         if ($fuzzyIPInfo) {
-            $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
-            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+            $ipInfo['country_code'] = $fuzzyIPInfo->getCountryCode();
+            $ipInfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo())->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $this->ip,
-            'country_code' => $ipinfo['country_code'],
-            'province' => $this->formatProvince($ipinfo['content']['address_detail']['province']),
-            'city' => $this->formatCity($ipinfo['content']['address_detail']['city']),
-            'district' => $this->formatDistrict($ipinfo['content']['address_detail']['district']),
-            'address' => $ipinfo['content']['address'],
+            'country_code' => $ipInfo['country_code'],
+            'province' => $this->formatProvince($ipInfo['content']['address_detail']['province']),
+            'city' => $this->formatCity($ipInfo['content']['address_detail']['city']),
+            'district' => $this->formatDistrict($ipInfo['content']['address_detail']['district']),
+            'address' => $ipInfo['content']['address'],
             'longitude' => $longitude,
             'latitude' => $latitude,
-            'isp' => $ipinfo['isp']
-        ]);
+            'isp' => $ipInfo['isp']
+        ])->refreshCache($refresh);
     }
 }

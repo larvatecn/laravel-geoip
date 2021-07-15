@@ -47,21 +47,22 @@ class LibreSpeedProvider extends AbstractProvider
     }
 
     /**
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        return (new IPInfo())->setRaw($ipinfo)->map([
-            'ip' => $ipinfo['ip'],
-            'country_code' => $ipinfo['country_code'],
-            'province' => $this->formatProvince($ipinfo['province']),
-            'city' => $this->formatCity($ipinfo['city']),
-            'district' => $this->formatDistrict($ipinfo['district']),
-            'address' => $ipinfo['address'],
-            'longitude' => $ipinfo['longitude'],
-            'latitude' => $ipinfo['latitude'],
-            'isp' => $ipinfo['isp'],
-        ]);
+        return (new IPInfo())->setRaw($ipInfo)->map([
+            'ip' => $ipInfo['ip'],
+            'country_code' => $ipInfo['country_code'],
+            'province' => $this->formatProvince($ipInfo['province']),
+            'city' => $this->formatCity($ipInfo['city']),
+            'district' => $this->formatDistrict($ipInfo['district']),
+            'address' => $ipInfo['address'],
+            'longitude' => $ipInfo['longitude'],
+            'latitude' => $ipInfo['latitude'],
+            'isp' => $ipInfo['isp'],
+        ])->refreshCache($refresh);
     }
 }

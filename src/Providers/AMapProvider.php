@@ -55,30 +55,31 @@ class AMapProvider extends AbstractProvider
     /**
      * Map the raw ipinfo array to a IPInfo instance.
      *
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        $location = LBSHelper::getCenterFromDegrees(LBSHelper::getAMAPRectangle($ipinfo['rectangle']));
+        $location = LBSHelper::getCenterFromDegrees(LBSHelper::getAMAPRectangle($ipInfo['rectangle']));
         [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84($location[0], $location[1]);
-        $ipinfo['isp'] = null;
-        $ipinfo['country_code'] = null;
+        $ipInfo['isp'] = null;
+        $ipInfo['country_code'] = null;
         //通过非高精IP查询运营商
         $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
         if ($fuzzyIPInfo) {
-            $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
-            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+            $ipInfo['country_code'] = $fuzzyIPInfo->getCountryCode();
+            $ipInfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo())->setRaw($ipinfo)->map([
+        return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $this->ip,
-            'country_code' => $ipinfo['country_code'],
-            'province' => $this->formatProvince($ipinfo['province']),
-            'city' => $this->formatCity($ipinfo['city']),
-            'address' => $ipinfo['province'] . $ipinfo['city'],
+            'country_code' => $ipInfo['country_code'],
+            'province' => $this->formatProvince($ipInfo['province']),
+            'city' => $this->formatCity($ipInfo['city']),
+            'address' => $ipInfo['province'] . $ipInfo['city'],
             'longitude' => $longitude,
             'latitude' => $latitude,
-            'isp' => $ipinfo['isp']
-        ]);
+            'isp' => $ipInfo['isp']
+        ])->refreshCache($refresh);
     }
 }

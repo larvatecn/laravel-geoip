@@ -81,4 +81,12 @@ interface IP
      * @return string|null
      */
     public function getLocation(): ?string;
+
+    /**
+     * 刷新缓存
+     *
+     * @param false $refresh
+     * @return IP
+     */
+    public function refreshCache(bool $refresh = false): IP;
 }

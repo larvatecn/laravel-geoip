@@ -47,21 +47,22 @@ class IPGeoLocationProvider extends AbstractProvider
     /**
      * Map the raw ipinfo array to a IPInfo instance.
      *
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        return (new IPInfo())->setRaw($ipinfo)->map([
-            'ip' => $ipinfo['ip'],
-            'country_code' => $ipinfo['country_code2'],
-            'province' => $this->formatProvince($ipinfo['state_prov']),
-            'city' => $this->formatCity($ipinfo['city']),
-            'district' => $ipinfo['district'],
-            'address' => $ipinfo['state_prov'] . $ipinfo['city'],
-            'longitude' => $ipinfo['longitude'],
-            'latitude' => $ipinfo['latitude'],
-            'isp' => $ipinfo['isp'],
-        ]);
+        return (new IPInfo())->setRaw($ipInfo)->map([
+            'ip' => $ipInfo['ip'],
+            'country_code' => $ipInfo['country_code2'],
+            'province' => $this->formatProvince($ipInfo['state_prov']),
+            'city' => $this->formatCity($ipInfo['city']),
+            'district' => $ipInfo['district'],
+            'address' => $ipInfo['state_prov'] . $ipInfo['city'],
+            'longitude' => $ipInfo['longitude'],
+            'latitude' => $ipInfo['latitude'],
+            'isp' => $ipInfo['isp'],
+        ])->refreshCache($refresh);
     }
 }

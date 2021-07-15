@@ -49,30 +49,31 @@ class QQProvider extends AbstractProvider
     /**
      * Map the raw ipinfo array to a IPInfo instance.
      *
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84($ipinfo['result']['location']['lng'], $ipinfo['result']['location']['lat']);
-        $ipinfo['isp'] = null;
-        $ipinfo['country_code'] = null;
+        [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84($ipInfo['result']['location']['lng'], $ipInfo['result']['location']['lat']);
+        $ipInfo['isp'] = null;
+        $ipInfo['country_code'] = null;
         //通过非高精IP查询运营商
-        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipinfo['result']['ip']);
+        $fuzzyIPInfo = GeoIPv4::getFuzzyIPInfo($ipInfo['result']['ip']);
         if ($fuzzyIPInfo) {
-            $ipinfo['country_code'] = $fuzzyIPInfo->getCountryCode();
-            $ipinfo['isp'] = $fuzzyIPInfo->getISP();
+            $ipInfo['country_code'] = $fuzzyIPInfo->getCountryCode();
+            $ipInfo['isp'] = $fuzzyIPInfo->getISP();
         }
-        return (new IPInfo())->setRaw($ipinfo)->map([
-            'ip' => $ipinfo['result']['ip'],
-            'country_code' => $ipinfo['country_code'],
-            'province' => $this->formatProvince($ipinfo['result']['ad_info']['province']),
-            'city' => $this->formatProvince($ipinfo['result']['ad_info']['city']),
-            'district' => $this->formatDistrict($ipinfo['result']['ad_info']['district']),
-            'address' => $ipinfo['result']['ad_info']['province'] . $ipinfo['result']['ad_info']['city'] . $ipinfo['result']['ad_info']['district'],
+        return (new IPInfo())->setRaw($ipInfo)->map([
+            'ip' => $ipInfo['result']['ip'],
+            'country_code' => $ipInfo['country_code'],
+            'province' => $this->formatProvince($ipInfo['result']['ad_info']['province']),
+            'city' => $this->formatProvince($ipInfo['result']['ad_info']['city']),
+            'district' => $this->formatDistrict($ipInfo['result']['ad_info']['district']),
+            'address' => $ipInfo['result']['ad_info']['province'] . $ipInfo['result']['ad_info']['city'] . $ipInfo['result']['ad_info']['district'],
             'longitude' => $longitude,
             'latitude' => $latitude,
-            'isp' => $ipinfo['isp']
-        ]);
+            'isp' => $ipInfo['isp']
+        ])->refreshCache($refresh);
     }
 }

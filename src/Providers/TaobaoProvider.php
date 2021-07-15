@@ -46,20 +46,21 @@ class TaobaoProvider extends AbstractProvider
     /**
      * Map the raw ipinfo array to a IPInfo instance.
      *
-     * @param array $ipinfo
+     * @param array $ipInfo
+     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipinfo): IP
+    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
     {
-        return (new IPInfo())->setRaw($ipinfo)->map([
-            'ip' => $ipinfo['data']['ip'],
-            'province' => $this->formatProvince($ipinfo['data']['region']),
-            'city' => $this->formatProvince($ipinfo['data']['city']),
-            'district' => $this->formatDistrict($ipinfo['data']['county']),
-            'address' => $ipinfo['data']['region'] . $ipinfo['data']['city'] . $ipinfo['data']['county'],
+        return (new IPInfo())->setRaw($ipInfo)->map([
+            'ip' => $ipInfo['data']['ip'],
+            'province' => $this->formatProvince($ipInfo['data']['region']),
+            'city' => $this->formatProvince($ipInfo['data']['city']),
+            'district' => $this->formatDistrict($ipInfo['data']['county']),
+            'address' => $ipInfo['data']['region'] . $ipInfo['data']['city'] . $ipInfo['data']['county'],
             'longitude' => null,
             'latitude' => null,
-            'isp' => $ipinfo['data']['isp'],
-        ]);
+            'isp' => $ipInfo['data']['isp'],
+        ])->refreshCache($refresh);
     }
 }

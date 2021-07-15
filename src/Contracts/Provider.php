@@ -19,7 +19,7 @@ interface Provider
      * @param bool $refresh 刷新缓存
      * @return IP
      */
-    public function get(string $ip, $refresh = false): IP;
+    public function get(string $ip, bool $refresh = false): IP;
 
     /**
      * 获取接口返回的原始位置信息
