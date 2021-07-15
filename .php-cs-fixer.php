@@ -13,6 +13,7 @@ return (new PhpCsFixer\Config())->setRules([
     'no_blank_lines_after_class_opening' => true,
     'no_leading_import_slash' => true,
     'no_whitespace_in_blank_line' => true,
+    'single_trait_insert_per_statement' => false,
     'ordered_class_elements' => [
         'order' => [
             'use_trait',
