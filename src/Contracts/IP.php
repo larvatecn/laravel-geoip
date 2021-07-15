@@ -83,6 +83,13 @@ interface IP
     public function getLocation(): ?string;
 
     /**
+     * 获取数组
+     *
+     * @return array
+     */
+    public function toArray(): array;
+
+    /**
      * 刷新缓存
      *
      * @param false $refresh
