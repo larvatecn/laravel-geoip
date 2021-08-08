@@ -10,6 +10,7 @@ namespace Larva\GeoIP;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Larva\GeoIP\Providers\AbstractProvider;
+use Larva\GeoIP\Contracts\Provider as ProviderContract;
 
 /**
  * IP管理器
@@ -22,9 +23,9 @@ class GeoIPManager extends Manager implements Contracts\Factory
      * Get a driver instance.
      *
      * @param string $driver
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    public function with(string $driver)
+    public function with(string $driver): ProviderContract
     {
         return $this->driver($driver);
     }
@@ -32,141 +33,111 @@ class GeoIPManager extends Manager implements Contracts\Factory
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createAmapDriver()
+    protected function createAmapDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.amap', []);
-        return $this->buildProvider(
-            Providers\AMapProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\AMapProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createBaiduDriver()
+    protected function createBaiduDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.baidu', []);
-        return $this->buildProvider(
-            Providers\BaiduProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\BaiduProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createIpapiDriver()
+    protected function createIpapiDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.ip-api', []);
-        return $this->buildProvider(
-            Providers\IPApiProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\IPApiProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createIpfinderDriver()
+    protected function createIpfinderDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.ip-finder', []);
-        return $this->buildProvider(
-            Providers\IPFinderProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\IPFinderProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createIpgeolocationDriver()
+    protected function createIpgeolocationDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.ip-geolocation', []);
-        return $this->buildProvider(
-            Providers\IPGeoLocationProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\IPGeoLocationProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createIpinfoDriver()
+    protected function createIpinfoDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.ip-info', []);
-        return $this->buildProvider(
-            Providers\IPInfoProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\IPInfoProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createIpipDriver()
+    protected function createIpipDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.ipip', []);
-        return $this->buildProvider(
-            Providers\IPIPProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\IPIPProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createLibrespeedDriver()
+    protected function createLibrespeedDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.librespeed', []);
-        return $this->buildProvider(
-            Providers\LibreSpeedProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\LibreSpeedProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createQqDriver()
+    protected function createQqDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.qq', []);
-        return $this->buildProvider(
-            Providers\QQProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\QQProvider::class, $config);
     }
 
     /**
      * Create an instance of the specified driver.
      *
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    protected function createTaobaoDriver()
+    protected function createTaobaoDriver(): ProviderContract
     {
         $config = $this->config->get('geoip.drivers.taobao', []);
-        return $this->buildProvider(
-            Providers\TaobaoProvider::class,
-            $config
-        );
+        return $this->buildProvider(Providers\TaobaoProvider::class, $config);
     }
 
     /**
@@ -174,15 +145,11 @@ class GeoIPManager extends Manager implements Contracts\Factory
      *
      * @param string $provider
      * @param array $config
-     * @return AbstractProvider
+     * @return ProviderContract
      */
-    public function buildProvider(string $provider, array $config)
+    public function buildProvider(string $provider, array $config): ProviderContract
     {
-        return new $provider(
-            $this->container['request'],
-            Arr::get($config, 'key', ''),
-            Arr::get($config, 'guzzle', [])
-        );
+        return new $provider($this->container['request'], Arr::get($config, 'key', ''), Arr::get($config, 'guzzle', []));
     }
 
     /**

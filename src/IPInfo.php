@@ -220,12 +220,14 @@ class IPInfo implements IP
         }
         /** @var GeoIPv4 $ipInfo */
         $ipInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
-        if ($ipInfo && $ipInfo->country_code == $this->country_code && $ipInfo->country_code == $this->province && $ipInfo->city == $this->city) {
+        if ($ipInfo && $ipInfo->country_code == $this->country_code && $ipInfo->province == $this->province) {
+            $ipInfo->city = $this->city;
+            $ipInfo->district = $this->district;
             if (!empty($this->latitude) && !empty($this->longitude)) {
                 $ipInfo->latitude = $this->latitude;
                 $ipInfo->longitude = $this->longitude;
-                $ipInfo->saveQuietly();
             }
+            $ipInfo->saveQuietly();
         }
         return $this;
     }

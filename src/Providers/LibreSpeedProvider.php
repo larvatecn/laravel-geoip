@@ -34,7 +34,7 @@ class LibreSpeedProvider extends AbstractProvider
      */
     public function getIPInfoResponse(string $ip): array
     {
-        $response = $this->getHttpClient()->post('https://www.librespeed.cn/api/location/ip', [
+        $response = $this->getHttpClient()->post('https://forge.librespeed.cn/api/v2/location/ip', [
             'query' => [
                 'ip' => $ip,
             ],

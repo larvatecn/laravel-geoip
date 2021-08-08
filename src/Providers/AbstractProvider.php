@@ -56,7 +56,7 @@ abstract class AbstractProvider implements ProviderContract
      * @param string $apiKey
      * @param array $guzzle
      */
-    public function __construct(Request $request, string $apiKey, $guzzle = [])
+    public function __construct(Request $request, string $apiKey, array $guzzle = [])
     {
         $this->guzzle = $guzzle;
         $this->request = $request;
