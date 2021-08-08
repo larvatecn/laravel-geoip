@@ -7,6 +7,7 @@
 
 namespace Larva\GeoIP;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Larva\GeoIP\Contracts\Factory;
 
@@ -43,8 +44,8 @@ class GeoIPServiceProvider extends ServiceProvider
             $this->mergeConfigFrom(__DIR__ . '/../config/geoip.php', 'geoip');
         }
 
-        $this->app->singleton(Factory::class, function ($app) {
-            return new GeoIPManager($app);
+        $this->app->singleton(Factory::class, function () {
+            return new GeoIPManager(Container::getInstance());
         });
     }
 
