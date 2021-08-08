@@ -9,7 +9,6 @@ namespace Larva\GeoIP;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
-use Larva\GeoIP\Providers\AbstractProvider;
 use Larva\GeoIP\Contracts\Provider as ProviderContract;
 
 /**

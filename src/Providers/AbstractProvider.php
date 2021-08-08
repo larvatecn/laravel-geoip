@@ -40,14 +40,14 @@ abstract class AbstractProvider implements ProviderContract
      *
      * @var string
      */
-    protected $apiKey;
+    protected string $apiKey;
 
     /**
      * The custom Guzzle configuration options.
      *
      * @var array
      */
-    protected $guzzle = [];
+    protected array $guzzle = [];
 
     /**
      * Create a new provider instance.

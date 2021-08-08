@@ -21,7 +21,7 @@ class BaiduProvider extends AbstractProvider
     /**
      * @var string
      */
-    protected $ip;
+    protected string $ip;
 
     /**
      * Get the name for the provider.

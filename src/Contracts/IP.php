@@ -90,6 +90,12 @@ interface IP
     public function toArray(): array;
 
     /**
+     * 输出字符串
+     * @return string
+     */
+    public function __toString(): string;
+
+    /**
      * 刷新缓存
      *
      * @param false $refresh

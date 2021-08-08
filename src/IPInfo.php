@@ -19,23 +19,22 @@ use Larva\Support\ISO3166;
  */
 class IPInfo implements IP
 {
-    public $ip;
-
-    public $country_code;
-    public $address;
-    public $province;
-    public $city;
-    public $district;
-    public $longitude;
-    public $latitude;
-    public $isp;
+    public string $ip;
+    public ?string $country_code;
+    public ?string $address;
+    public ?string $province;
+    public ?string $city;
+    public ?string $district;
+    public ?float $longitude;
+    public ?float $latitude;
+    public ?string $isp;
 
     /**
      * The ip raw attributes.
      *
      * @var array
      */
-    public $ipInfo = [];
+    public array $ipInfo = [];
 
     /**
      * 获取数字IP
@@ -207,6 +206,15 @@ class IPInfo implements IP
             'latitude' => $this->latitude,
             'isp' => $this->isp,
         ];
+    }
+
+    /**
+     * 输出字符串
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->province . $this->city . $this->district . ' ' . $this->isp;
     }
 
     /**

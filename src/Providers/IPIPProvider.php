@@ -19,7 +19,7 @@ class IPIPProvider extends AbstractProvider
     /**
      * @var string
      */
-    public $ip;
+    public string $ip;
 
     /**
      * Get the name for the provider.
