@@ -25,8 +25,17 @@ class IPInfo implements IP
     public ?string $province;
     public ?string $city;
     public ?string $district;
-    public ?float $longitude;
-    public ?float $latitude;
+
+    /**
+     * @var float|string|int|null
+     */
+    public $longitude;
+
+    /**
+     * @var float|string|int|null
+     */
+    public $latitude;
+
     public ?string $isp;
 
     /**
@@ -118,7 +127,7 @@ class IPInfo implements IP
      */
     public function getLongitude(): ?float
     {
-        return $this->longitude;
+        return floatval($this->longitude);
     }
 
     /**
@@ -127,7 +136,7 @@ class IPInfo implements IP
      */
     public function getLatitude(): ?float
     {
-        return $this->latitude;
+        return floatval($this->latitude);
     }
 
     /**

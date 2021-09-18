@@ -125,15 +125,8 @@ abstract class AbstractProvider implements ProviderContract
     {
         $ipInfo = [
             'ip' => $ip,
-            'country_code' => '',
-            'country_name' => '',
-            'province' => '',
-            'city' => '',
-            'district' => '',
-            'address' => '',
-            'longitude' => '',
-            'latitude' => '',
-            'isp' => $isp,
+            'country_code' => null, 'country_name' => null, 'province' => null, 'city' => null, 'district' => null,
+            'address' => null, 'longitude' => null, 'latitude' => null, 'isp' => $isp,
         ];
         return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
     }
