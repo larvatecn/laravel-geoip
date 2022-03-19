@@ -1,11 +1,12 @@
 # laravel-geoip
 
-<p align="center">Laravel 的IP位置查询模块</p>
-
 <p align="center">
-<a href="https://packagist.org/packages/larva/laravel-geoip"><img src="https://poser.pugx.org/larva/laravel-geoip/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/larva/laravel-geoip"><img src="https://poser.pugx.org/larva/laravel-geoip/v/unstable.svg" alt="Latest Unstable Version"></a>
+    <a href="https://packagist.org/packages/larva/laravel-geoip"><img src="https://poser.pugx.org/larva/laravel-geoip/v/stable" alt="Stable Version"></a>
+    <a href="https://packagist.org/packages/larva/laravel-geoip"><img src="https://poser.pugx.org/larva/laravel-geoip/downloads" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/larva/laravel-geoip"><img src="https://poser.pugx.org/larva/laravel-geoip/license" alt="License"></a>
 </p>
+
+Laravel 的IP位置查询模块。
 
 ## 平台支持
 
