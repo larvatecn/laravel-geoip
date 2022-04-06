@@ -1,12 +1,13 @@
 <?php
 /**
- * This is NOT a freeware, use is subject to license terms
+ * This is NOT a freeware, use is subject to license terms.
+ *
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
  */
 
 namespace Larva\GeoIP\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Larva\GeoIP\IPInfo;
 use Larva\Support\IPHelper;
@@ -28,8 +29,8 @@ use Larva\Support\ISO3166;
  * @property-read string $countryName 国家名称
  * @property-read string $address 粗略地址
  * @property-read string $location 经纬度
- * @method static \Illuminate\Database\Eloquent\Builder|GeoIPv4 ip($ip)
- * @method static \Illuminate\Database\Eloquent\Builder|GeoIPv4 originalIp($ip)
+ * @method static Builder|GeoIPv4 ip($ip)
+ * @method static Builder|GeoIPv4 originalIp($ip)
  * @method static GeoIPv4|null find($id)
  */
 class GeoIPv4 extends Model
@@ -80,11 +81,11 @@ class GeoIPv4 extends Model
     /**
      * 查询指定IP
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param string $ip
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function scopeOriginalIp($query, $ip)
+    public function scopeOriginalIp(Builder $query, string $ip): Builder
     {
         $ipLong = IPHelper::ip2Long($ip);
         return $query->where('id', $ipLong);
@@ -93,11 +94,11 @@ class GeoIPv4 extends Model
     /**
      * 查询指定IP段
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param string $ip
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
-    public function scopeIp($query, $ip)
+    public function scopeIp(Builder $query, string $ip)
     {
         $ipLong = IPHelper::startIpv4Long($ip);
         return $query->where('id', $ipLong);
