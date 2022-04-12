@@ -9,6 +9,7 @@ namespace Larva\GeoIP\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Larva\GeoIP\IPInfo;
 use Larva\Support\IPHelper;
 use Larva\Support\ISO3166;
@@ -25,6 +26,7 @@ use Larva\Support\ISO3166;
  * @property string|null $scenario 使用场景
  * @property float|null $latitude 纬度
  * @property float|null $longitude 经度
+ * @property Carbon $updated_at 最后更新时间
  *
  * @property-read string $countryName 国家名称
  * @property-read string $address 粗略地址
@@ -35,17 +37,14 @@ use Larva\Support\ISO3166;
  */
 class GeoIPv4 extends Model
 {
+    public const CREATED_AT = null;
+
     /**
      * 与模型关联的数据表。
      *
      * @var string
      */
     protected $table = 'geo_ipv4';
-
-    /**
-     * @var bool 时间戳
-     */
-    public $timestamps = false;
 
     /**
      * 关闭主键自增
@@ -69,6 +68,7 @@ class GeoIPv4 extends Model
     protected $casts = [
         'longitude' => 'double',
         'latitude' => 'double',
+        'updated_at' => 'datetime',
     ];
 
     /**
@@ -98,7 +98,7 @@ class GeoIPv4 extends Model
      * @param string $ip
      * @return Builder
      */
-    public function scopeIp(Builder $query, string $ip)
+    public function scopeIp(Builder $query, string $ip): Builder
     {
         $ipLong = IPHelper::startIpv4Long($ip);
         return $query->where('id', $ipLong);
@@ -150,38 +150,38 @@ class GeoIPv4 extends Model
     /**
      * 获取高精IP位置
      * @param string $ip
-     * @return false|IPInfo
+     * @return IPInfo|null
      */
-    public static function getPrecisionIPInfo(string $ip)
+    public static function getPrecisionIPInfo(string $ip): ?IPInfo
     {
         if (($geoIPModel = static::originalIp($ip)->first()) != null) {
             $ipInfo = $geoIPModel->toArray();
             return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
         }
-        return false;
+        return null;
     }
 
     /**
      * 获取模糊IP位置
      * @param string $ip
-     * @return false|IPInfo
+     * @return IPInfo|null
      */
-    public static function getFuzzyIPInfo(string $ip)
+    public static function getFuzzyIPInfo(string $ip): ?IPInfo
     {
         if (($geoIPModel = static::ip($ip)->first()) != null) {
             $ipInfo = $geoIPModel->toArray();
             $ipInfo['ip'] = $ip;
             return (new IPInfo())->map($ipInfo)->setRaw($ipInfo);
         }
-        return false;
+        return null;
     }
 
     /**
      * 获取IP位置
      * @param string $ip
-     * @return false|IPInfo
+     * @return IPInfo|null
      */
-    public static function getIPInfo(string $ip)
+    public static function getIPInfo(string $ip): ?IPInfo
     {
         if (config('geoip.precision')) {
             return static::getPrecisionIPInfo($ip);

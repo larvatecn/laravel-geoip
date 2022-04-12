@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('scenario', 20)->nullable()->comment('使用场景');
             $table->double('longitude')->nullable()->comment('经度');
             $table->double('latitude')->nullable()->comment('纬度');
+            $table->timestamp('updated_at')->nullable()->comment('最后更新时间');
         });
     }
 
