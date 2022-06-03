@@ -25,6 +25,8 @@ return new class extends Migration
             $table->double('longitude')->nullable()->comment('经度');
             $table->double('latitude')->nullable()->comment('纬度');
             $table->timestamp('updated_at')->nullable()->comment('最后更新时间');
+
+            $table->comment('IPv4归属地表');
         });
     }
 
