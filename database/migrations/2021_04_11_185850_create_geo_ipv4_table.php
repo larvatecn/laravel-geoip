@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('geo_ipv4', function (Blueprint $table) {
             $table->unsignedInteger('id')->primary();
-            $table->ipAddress('ip')->virtualAs('INET_NTOA(id)');//虚拟字段
+            if (DB::connection()->getConfig('driver') == 'mysql') {
+                $table->ipAddress('ip')->virtualAs('INET_NTOA(id)');//虚拟字段
+            }
             $table->string('country_code', 2)->nullable();//国家 ISO3166 代码
             $table->string('province', 128)->nullable();//省
             $table->string('city', 128)->nullable();//市

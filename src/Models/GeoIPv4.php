@@ -105,6 +105,16 @@ class GeoIPv4 extends Model
     }
 
     /**
+     * 获取IP地址
+     *
+     * @return string|false
+     */
+    public function getIpAttribute(): bool|string
+    {
+        return long2ip($this->id);
+    }
+
+    /**
      * 获取国家
      *
      * @return string
