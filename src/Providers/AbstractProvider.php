@@ -151,39 +151,4 @@ abstract class AbstractProvider implements ProviderContract
         $this->request = $request;
         return $this;
     }
-
-    /**
-     * 格式化省市
-     * @param string $province
-     * @return string
-     */
-    public function formatProvince(string $province): string
-    {
-        return str_replace(['省', '市', '维吾尔自治区', '回族自治区', '壮族自治区', '自治区', '特别行政区'], '', $province);
-    }
-
-    /**
-     * 格式化省市
-     * @param string $province
-     * @return string
-     */
-    public function formatCity(string $province): string
-    {
-        return str_replace([
-            '市', '彝族自治州', '朝鲜族自治州', '土家族苗族自治州', '藏族羌族自治州', '藏族自治州', '彝族自治州',
-            '苗族侗族自治州', '布依族苗族自治州', '壮族苗族自治州', '傣族自治州', '白族自治州', '傈僳族自治州',
-            '蒙古族藏族自治州', '蒙古自治州', '哈萨克自治州', '柯尔克孜自治州', '傣族景颇族', '哈尼族', '自治州',
-            '特别行政区', '地区'
-        ], '', $province);
-    }
-
-    /**
-     * 格式化区
-     * @param string $district
-     * @return string
-     */
-    public function formatDistrict(string $district): string
-    {
-        return str_replace(['市', '区', '县'], '', $district);
-    }
 }

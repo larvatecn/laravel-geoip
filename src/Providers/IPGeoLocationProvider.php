@@ -55,8 +55,8 @@ class IPGeoLocationProvider extends AbstractProvider
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['ip'],
             'country_code' => $ipInfo['country_code2'],
-            'province' => $this->formatProvince($ipInfo['state_prov']),
-            'city' => $this->formatCity($ipInfo['city']),
+            'province' => $ipInfo['state_prov'],
+            'city' => $ipInfo['city'],
             'district' => $ipInfo['district'],
             'address' => $ipInfo['state_prov'] . $ipInfo['city'],
             'longitude' => $ipInfo['longitude'],

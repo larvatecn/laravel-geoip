@@ -54,8 +54,8 @@ class IPInfoProvider extends AbstractProvider
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['ip'],
             'country_code' => $ipInfo['country'],
-            'province' => $this->formatProvince($ipInfo['region']),
-            'city' => $this->formatCity($ipInfo['city']),
+            'province' => $ipInfo['region'],
+            'city' => $ipInfo['city'],
             'district' => null,
             'address' => $ipInfo['region'] . $ipInfo['city'],
             'longitude' => $location[0],

@@ -60,9 +60,9 @@ class QQProvider extends AbstractProvider
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['result']['ip'],
             'country_code' => $ipInfo['country_code'],
-            'province' => $this->formatProvince($ipInfo['result']['ad_info']['province']),
-            'city' => $this->formatProvince($ipInfo['result']['ad_info']['city']),
-            'district' => $this->formatDistrict($ipInfo['result']['ad_info']['district']),
+            'province' => $ipInfo['result']['ad_info']['province'],
+            'city' => $ipInfo['result']['ad_info']['city'],
+            'district' => $ipInfo['result']['ad_info']['district'],
             'address' => $ipInfo['result']['ad_info']['province'] . $ipInfo['result']['ad_info']['city'] . $ipInfo['result']['ad_info']['district'],
             'longitude' => $longitude,
             'latitude' => $latitude,

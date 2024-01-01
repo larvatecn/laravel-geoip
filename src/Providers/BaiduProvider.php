@@ -63,9 +63,9 @@ class BaiduProvider extends AbstractProvider
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $this->ip,
             'country_code' => $ipInfo['country_code'],
-            'province' => $this->formatProvince($ipInfo['content']['address_detail']['province']),
-            'city' => $this->formatCity($ipInfo['content']['address_detail']['city']),
-            'district' => $this->formatDistrict($ipInfo['content']['address_detail']['district']),
+            'province' => $ipInfo['content']['address_detail']['province'],
+            'city' => $ipInfo['content']['address_detail']['city'],
+            'district' => $ipInfo['content']['address_detail']['district'],
             'address' => $ipInfo['content']['address'],
             'longitude' => $longitude,
             'latitude' => $latitude,

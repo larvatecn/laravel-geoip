@@ -55,9 +55,9 @@ class LibreSpeedProvider extends AbstractProvider
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['ip'],
             'country_code' => $ipInfo['country_code'],
-            'province' => $this->formatProvince($ipInfo['province']),
-            'city' => $this->formatCity($ipInfo['city']),
-            'district' => $this->formatDistrict($ipInfo['district']),
+            'province' => $ipInfo['province'],
+            'city' => $ipInfo['city'],
+            'district' => $ipInfo['district'],
             'address' => $ipInfo['address'],
             'longitude' => $ipInfo['longitude'],
             'latitude' => $ipInfo['latitude'],

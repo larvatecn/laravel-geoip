@@ -51,9 +51,9 @@ class IPApiProvider extends AbstractProvider
         $ipInfo['isp'] = null;
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['query'],
-            'country_code' => $this->formatProvince($ipInfo['countryCode']),
-            'province' => $this->formatProvince($ipInfo['regionName']),
-            'city' => $this->formatCity($ipInfo['city']),
+            'country_code' => $ipInfo['countryCode'],
+            'province' => $ipInfo['regionName'],
+            'city' => $ipInfo['city'],
             'district' => null,
             'address' => $ipInfo['regionName'] . $ipInfo['city'],
             'longitude' => $ipInfo['lon'],

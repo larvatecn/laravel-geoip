@@ -63,9 +63,9 @@ class IPIPProvider extends AbstractProvider
         $district = $ipInfo['data']['gps_district']['district'] ?? '';
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['data']['ip'],
-            'province' => $this->formatProvince($province),
-            'city' => $this->formatCity($city),
-            'district' => $this->formatDistrict($district),
+            'province' => $province,
+            'city' => $city,
+            'district' => $district,
             'address' => $province . $city . $district,
             'longitude' => $ipInfo['data']['longitude'],
             'latitude' => $ipInfo['data']['latitude'],

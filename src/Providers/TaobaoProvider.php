@@ -71,9 +71,9 @@ class TaobaoProvider extends AbstractProvider
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['ip'],
             'country_code' => $ipInfo['country_id'],
-            'province' => $this->formatProvince($ipInfo['region']),
-            'city' => $this->formatProvince($ipInfo['city']),
-            'district' => $this->formatDistrict($ipInfo['county']),
+            'province' => $ipInfo['region'],
+            'city' => $ipInfo['city'],
+            'district' => $ipInfo['county'],
             'address' => $ipInfo['region'] . $ipInfo['city'] . $ipInfo['county'],
             'longitude' => null,
             'latitude' => null,
