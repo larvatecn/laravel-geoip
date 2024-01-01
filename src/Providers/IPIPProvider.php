@@ -54,10 +54,9 @@ class IPIPProvider extends AbstractProvider
 
     /**
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         $province = $ipInfo['data']['gps_district']['province'] ?? $ipInfo['data']['location']['province'];
         $city = $ipInfo['data']['gps_district']['city'] ?? $ipInfo['data']['location']['city'];
@@ -70,6 +69,6 @@ class IPIPProvider extends AbstractProvider
             'address' => $province . $city . $district,
             'longitude' => $ipInfo['data']['longitude'],
             'latitude' => $ipInfo['data']['latitude'],
-        ])->refreshCache($refresh);
+        ]);
     }
 }

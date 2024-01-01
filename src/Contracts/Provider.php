@@ -16,8 +16,7 @@ interface Provider
     /**
      * 获取IP位置
      * @param string $ip
-     * @param bool $refresh 刷新缓存
      * @return IP
      */
-    public function get(string $ip, bool $refresh = false): IP;
+    public function get(string $ip): IP;
 }

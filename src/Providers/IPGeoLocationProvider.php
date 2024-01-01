@@ -48,10 +48,9 @@ class IPGeoLocationProvider extends AbstractProvider
      * Map the raw ipinfo array to a IPInfo instance.
      *
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['ip'],
@@ -63,6 +62,6 @@ class IPGeoLocationProvider extends AbstractProvider
             'longitude' => $ipInfo['longitude'],
             'latitude' => $ipInfo['latitude'],
             'isp' => $ipInfo['isp'],
-        ])->refreshCache($refresh);
+        ]);
     }
 }

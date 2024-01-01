@@ -44,13 +44,12 @@ class TaobaoProvider extends AbstractProvider
     }
 
     /**
-     * Map the raw ipinfo array to a IPInfo instance.
+     * Map the raw ip info array to a IPInfo instance.
      *
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['data']['ip'],
@@ -61,6 +60,6 @@ class TaobaoProvider extends AbstractProvider
             'longitude' => null,
             'latitude' => null,
             'isp' => $ipInfo['data']['isp'],
-        ])->refreshCache($refresh);
+        ]);
     }
 }

@@ -41,13 +41,12 @@ class IPApiProvider extends AbstractProvider
     }
 
     /**
-     * Map the raw ipinfo array to a IPInfo instance.
+     * Map the raw ip info array to a IPInfo instance.
      *
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         $ipInfo['isp'] = null;
         return (new IPInfo())->setRaw($ipInfo)->map([
@@ -60,6 +59,6 @@ class IPApiProvider extends AbstractProvider
             'longitude' => $ipInfo['lon'],
             'latitude' => $ipInfo['lat'],
             'isp' => $ipInfo['isp'],
-        ])->refreshCache($refresh);
+        ]);
     }
 }

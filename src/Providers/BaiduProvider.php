@@ -53,10 +53,9 @@ class BaiduProvider extends AbstractProvider
 
     /**
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84(doubleval($ipInfo['content']['point']['x']), doubleval($ipInfo['content']['point']['y']));
         $ipInfo['isp'] = null;
@@ -71,6 +70,6 @@ class BaiduProvider extends AbstractProvider
             'longitude' => $longitude,
             'latitude' => $latitude,
             'isp' => $ipInfo['isp']
-        ])->refreshCache($refresh);
+        ]);
     }
 }

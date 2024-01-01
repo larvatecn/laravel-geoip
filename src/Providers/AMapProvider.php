@@ -52,13 +52,12 @@ class AMapProvider extends AbstractProvider
     }
 
     /**
-     * Map the raw ipinfo array to a IPInfo instance.
+     * Map the raw ip info array to a IPInfo instance.
      *
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         $location = LBSHelper::getCenterFromDegrees(LBSHelper::getAMAPRectangle($ipInfo['rectangle']));
         [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84($location[0], $location[1]);
@@ -73,6 +72,6 @@ class AMapProvider extends AbstractProvider
             'longitude' => $longitude,
             'latitude' => $latitude,
             'isp' => $ipInfo['isp']
-        ])->refreshCache($refresh);
+        ]);
     }
 }

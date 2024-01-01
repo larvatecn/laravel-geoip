@@ -70,13 +70,12 @@ abstract class AbstractProvider implements ProviderContract
     abstract protected function getName(): string;
 
     /**
-     * Map the raw ipinfo array to a IPInfo instance.
+     * Map the raw ip info array to a IPInfo instance.
      *
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    abstract protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP;
+    abstract protected function mapIPInfoToObject(array $ipInfo): IP;
 
     /**
      * Get the ip info response for the given ip.
@@ -88,16 +87,15 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * 查询IP位置
      * @param string|null $ip
-     * @param bool $refresh 刷新缓存
      * @return IP
      */
-    public function get(string $ip = null, bool $refresh = false): IP
+    public function get(string $ip = null): IP
     {
         $ip = $ip ?? $this->request->getClientIp();
         if (IPHelper::isPrivateForIpV4($ip)) {
             return $this->getDefaultIPInfo($ip, 'Local IP');
         } else {
-            return $this->mapIPInfoToObject($this->getIPInfoResponse($ip), $refresh);
+            return $this->mapIPInfoToObject($this->getIPInfoResponse($ip));
         }
     }
 

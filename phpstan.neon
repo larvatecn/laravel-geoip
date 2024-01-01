@@ -1,7 +1,6 @@
 parameters:
     paths:
         - config
-        - database
         - src
     excludePaths:
         - ./vendor
@@ -10,4 +9,3 @@ parameters:
     checkMissingIterableValueType: false
     ignoreErrors:
         - '#Function (config|config_path) not found.#'
-        - '#Call to an undefined method Illuminate\\Contracts\\Foundation\\Application::configurationIsCached\(\).#'

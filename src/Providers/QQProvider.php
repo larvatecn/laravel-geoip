@@ -47,13 +47,12 @@ class QQProvider extends AbstractProvider
     }
 
     /**
-     * Map the raw ipinfo array to a IPInfo instance.
+     * Map the raw ip info array to a IPInfo instance.
      *
      * @param array $ipInfo
-     * @param bool $refresh
      * @return IP
      */
-    protected function mapIPInfoToObject(array $ipInfo, bool $refresh = false): IP
+    protected function mapIPInfoToObject(array $ipInfo): IP
     {
         [$longitude, $latitude] = LBSHelper::GCJ02ToWGS84($ipInfo['result']['location']['lng'], $ipInfo['result']['location']['lat']);
         $ipInfo['isp'] = null;
@@ -68,6 +67,6 @@ class QQProvider extends AbstractProvider
             'longitude' => $longitude,
             'latitude' => $latitude,
             'isp' => $ipInfo['isp']
-        ])->refreshCache($refresh);
+        ]);
     }
 }
