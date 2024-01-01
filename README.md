@@ -23,7 +23,7 @@ Laravel 的IP位置查询模块。
 
 ## 环境需求
 
-- PHP >= 8.0
+- PHP >= 8.1
 
 ## Installation
 
@@ -34,5 +34,4 @@ composer require larva/laravel-geoip -vv
 ```php
     $info=  \Larva\GeoIP\GeoIP::get('218.1.2.3');
     $info=  \Larva\GeoIP\GeoIP::with('baidu')->get('218.1.2.3');
-    $info=  \Larva\GeoIP\GeoIP::with('baidu')->getRaw('218.1.2.3');
 ```
