@@ -7,7 +7,9 @@
 
 namespace Larva\GeoIP\Providers;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Larva\GeoIP\Contracts\IP;
+use Larva\GeoIP\GeoIPException;
 use Larva\GeoIP\IPInfo;
 
 /**
@@ -30,7 +32,7 @@ class TaobaoProvider extends AbstractProvider
      * Get the ip info response for the given ip.
      * @param string $ip
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getIPInfoResponse(string $ip): array
     {
@@ -40,7 +42,15 @@ class TaobaoProvider extends AbstractProvider
                 'accessKey' => $this->apiKey,
             ]
         ]);
-        return json_decode($response->getBody(), true);
+        $ipInfo = json_decode($response->getBody(), true);
+        if ($ipInfo && $ipInfo['code'] == 0) {
+            return $ipInfo['data'];
+        }
+        if ($ipInfo['code'] == 4) {
+            throw new GeoIPException('qps超出');
+        } else {
+            throw new GeoIPException('服务器繁忙');
+        }
     }
 
     /**
@@ -52,14 +62,15 @@ class TaobaoProvider extends AbstractProvider
     protected function mapIPInfoToObject(array $ipInfo): IP
     {
         return (new IPInfo())->setRaw($ipInfo)->map([
-            'ip' => $ipInfo['data']['ip'],
-            'province' => $this->formatProvince($ipInfo['data']['region']),
-            'city' => $this->formatProvince($ipInfo['data']['city']),
-            'district' => $this->formatDistrict($ipInfo['data']['county']),
-            'address' => $ipInfo['data']['region'] . $ipInfo['data']['city'] . $ipInfo['data']['county'],
+            'ip' => $ipInfo['ip'],
+            'country_code' => $ipInfo['country_id'],
+            'province' => $this->formatProvince($ipInfo['region']),
+            'city' => $this->formatProvince($ipInfo['city']),
+            'district' => $this->formatDistrict($ipInfo['county']),
+            'address' => $ipInfo['region'] . $ipInfo['city'] . $ipInfo['county'],
             'longitude' => null,
             'latitude' => null,
-            'isp' => $ipInfo['data']['isp'],
+            'isp' => $ipInfo['isp'],
         ]);
     }
 }
