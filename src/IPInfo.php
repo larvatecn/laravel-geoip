@@ -9,7 +9,6 @@ namespace Larva\GeoIP;
 
 use Illuminate\Support\Facades\App;
 use Larva\GeoIP\Contracts\IP;
-use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\IPHelper;
 use Larva\Support\ISO3166;
 
@@ -224,28 +223,5 @@ class IPInfo implements IP
     public function __toString(): string
     {
         return $this->province . $this->city . $this->district . ' ' . $this->isp;
-    }
-
-    /**
-     * 刷新缓存
-     * @return $this
-     */
-    public function refreshCache(bool $refresh = false): IP
-    {
-        if (!$refresh || IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
-            return $this;
-        }
-        /** @var GeoIPv4 $ipInfo */
-        $ipInfo = GeoIPv4::getFuzzyIPInfo($this->ip);
-        if ($ipInfo && $ipInfo->country_code == $this->country_code && $ipInfo->province == $this->province) {
-            $ipInfo->city = $this->city;
-            $ipInfo->district = $this->district;
-            if (!empty($this->latitude) && !empty($this->longitude)) {
-                $ipInfo->latitude = $this->latitude;
-                $ipInfo->longitude = $this->longitude;
-            }
-            $ipInfo->saveQuietly();
-        }
-        return $this;
     }
 }

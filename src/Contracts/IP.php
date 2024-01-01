@@ -94,12 +94,4 @@ interface IP
      * @return string
      */
     public function __toString(): string;
-
-    /**
-     * 刷新缓存
-     *
-     * @param false $refresh
-     * @return IP
-     */
-    public function refreshCache(bool $refresh = false): IP;
 }
