@@ -14,7 +14,6 @@ use Larva\GeoIP\Contracts\Factory;
  * Class GeoIP
  * @method static \Larva\GeoIP\Contracts\Provider with(string $driver = null)
  * @method static \Larva\GeoIP\IPInfo get(string $ip = '', bool $refresh = false)
- * @method static array getRaw(string $ip = '')
  * @see \Larva\GeoIP\GeoIPManager
  *
  * @author Tongle Xu <xutongle@gmail.com>

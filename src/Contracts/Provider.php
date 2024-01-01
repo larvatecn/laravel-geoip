@@ -20,11 +20,4 @@ interface Provider
      * @return IP
      */
     public function get(string $ip, bool $refresh = false): IP;
-
-    /**
-     * 获取接口返回的原始位置信息
-     * @param string $ip
-     * @return array
-     */
-    public function getRaw(string $ip): array;
 }

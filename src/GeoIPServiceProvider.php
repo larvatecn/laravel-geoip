@@ -8,6 +8,7 @@
 namespace Larva\GeoIP;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Support\ServiceProvider;
 use Larva\GeoIP\Contracts\Factory;
 
@@ -40,7 +41,7 @@ class GeoIPServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (!$this->app->configurationIsCached()) {
+        if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             $this->mergeConfigFrom(__DIR__ . '/../config/geoip.php', 'geoip');
         }
 

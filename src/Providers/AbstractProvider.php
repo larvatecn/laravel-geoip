@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Larva\GeoIP\Contracts\IP;
 use Larva\GeoIP\Contracts\Provider as ProviderContract;
 use Larva\GeoIP\IPInfo;
-use Larva\GeoIP\Models\GeoIPv4;
 use Larva\Support\IPHelper;
 
 /**
@@ -88,31 +87,18 @@ abstract class AbstractProvider implements ProviderContract
 
     /**
      * 查询IP位置
-     * @param string $ip
+     * @param string|null $ip
      * @param bool $refresh 刷新缓存
      * @return IP
      */
-    public function get(string $ip, bool $refresh = false): IP
+    public function get(string $ip = null, bool $refresh = false): IP
     {
         $ip = $ip ?? $this->request->getClientIp();
         if (IPHelper::isPrivateForIpV4($ip)) {
             return $this->getDefaultIPInfo($ip, 'Local IP');
-        } elseif (!$refresh && ($ipInfo = GeoIPv4::getIPInfo($ip))) {
-            return $ipInfo;
         } else {
             return $this->mapIPInfoToObject($this->getIPInfoResponse($ip), $refresh);
         }
-    }
-
-    /**
-     * 查询IP归属地原始响应
-     * @param string $ip
-     * @return array
-     */
-    public function getRaw(string $ip): array
-    {
-        $ip = $ip ?? $this->request->getClientIp();
-        return $this->getIPInfoResponse($ip);
     }
 
     /**

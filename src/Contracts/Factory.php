@@ -17,8 +17,8 @@ interface Factory
     /**
      * Get an GeoIP provider implementation.
      *
-     * @param string $driver
+     * @param string|null $driver
      * @return \Larva\GeoIP\Contracts\Provider
      */
-    public function driver($driver = null);
+    public function driver(string $driver = null);
 }
