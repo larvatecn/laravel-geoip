@@ -52,7 +52,7 @@ return [
             'key' => '',
         ],
         'taobao' => [
-            'key' => '',
+            'key' => 'alibaba-inc',
         ],
     ],
 ];

@@ -232,7 +232,7 @@ class IPInfo implements IP
      */
     public function refreshCache(bool $refresh = false): IP
     {
-        if ($refresh == false || IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
+        if (!$refresh || IPHelper::isPrivateForIpV4($this->ip) || IPHelper::getIpVersion($this->ip) == IPHelper::IPV6) {
             return $this;
         }
         /** @var GeoIPv4 $ipInfo */
