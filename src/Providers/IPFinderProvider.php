@@ -58,7 +58,7 @@ class IPFinderProvider extends AbstractProvider
             'country_code' => Arr::get($ipInfo, 'country_code', ''),
             'province' => $this->formatProvince(Arr::get($ipInfo, 'region_name', '')),
             'city' => $this->formatCity(Arr::get($ipInfo, 'city', '')),
-            'district' => '',
+            'district' => null,
             'address' => $ipInfo['region_name'] . $ipInfo['city'],
             'longitude' => Arr::get($ipInfo, 'longitude', ''),
             'latitude' => Arr::get($ipInfo, 'latitude', ''),

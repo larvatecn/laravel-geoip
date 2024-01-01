@@ -68,6 +68,7 @@ class AMapProvider extends AbstractProvider
             'country_code' => $ipInfo['country_code'],
             'province' => $this->formatProvince($ipInfo['province']),
             'city' => $this->formatCity($ipInfo['city']),
+            'district' => null,
             'address' => $ipInfo['province'] . $ipInfo['city'],
             'longitude' => $longitude,
             'latitude' => $latitude,

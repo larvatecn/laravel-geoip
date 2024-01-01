@@ -61,6 +61,13 @@ class TaobaoProvider extends AbstractProvider
      */
     protected function mapIPInfoToObject(array $ipInfo): IP
     {
+        $isp = match ($ipInfo['isp']) {
+            '联通' => '中国联通',
+            '电信' => '中国电信',
+            '移动' => '中国移动',
+            '教育网' => '中国教育网',
+            default => $ipInfo['isp'],
+        };
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['ip'],
             'country_code' => $ipInfo['country_id'],
@@ -70,7 +77,7 @@ class TaobaoProvider extends AbstractProvider
             'address' => $ipInfo['region'] . $ipInfo['city'] . $ipInfo['county'],
             'longitude' => null,
             'latitude' => null,
-            'isp' => $ipInfo['isp'],
+            'isp' => $isp,
         ]);
     }
 }
