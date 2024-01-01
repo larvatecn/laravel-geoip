@@ -34,7 +34,7 @@ class TaobaoProvider extends AbstractProvider
      */
     public function getIPInfoResponse(string $ip): array
     {
-        $response = $this->getHttpClient()->get('http://ip.taobao.com/service/outGetIpInfo', [
+        $response = $this->getHttpClient()->get('https://ip.taobao.com/outGetIpInfo', [
             'query' => [
                 'ip' => $ip,
                 'accessKey' => $this->apiKey,
