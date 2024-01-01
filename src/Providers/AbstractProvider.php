@@ -97,7 +97,7 @@ abstract class AbstractProvider implements ProviderContract
         $ip = $ip ?? $this->request->getClientIp();
         if (IPHelper::isPrivateForIpV4($ip)) {
             return $this->getDefaultIPInfo($ip, 'Local IP');
-        } elseif ($refresh == false && ($ipInfo = GeoIPv4::getIPInfo($ip)) != false) {
+        } elseif (!$refresh && ($ipInfo = GeoIPv4::getIPInfo($ip))) {
             return $ipInfo;
         } else {
             return $this->mapIPInfoToObject($this->getIPInfoResponse($ip), $refresh);
