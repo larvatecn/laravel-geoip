@@ -35,7 +35,10 @@ class IPApiProvider extends AbstractProvider
     public function getIPInfoResponse(string $ip): array
     {
         $response = $this->getHttpClient()->get('http://ip-api.com/json/' . $ip, [
-            'query' => ['lang' => 'zh-CN']
+            'query' => [
+                'lang' => 'zh-CN',
+                'fields' => 'status,message,country,countryCode,region,regionName,city,district,lat,lon,isp,query'
+            ]
         ]);
         return json_decode($response->getBody(), true);
     }
@@ -48,14 +51,13 @@ class IPApiProvider extends AbstractProvider
      */
     protected function mapIPInfoToObject(array $ipInfo): IP
     {
-        $ipInfo['isp'] = null;
         return (new IPInfo())->setRaw($ipInfo)->map([
             'ip' => $ipInfo['query'],
             'country_code' => $ipInfo['countryCode'],
             'province' => $ipInfo['regionName'],
             'city' => $ipInfo['city'],
-            'district' => null,
-            'address' => $ipInfo['regionName'] . $ipInfo['city'],
+            'district' => $ipInfo['district'],
+            'address' => $ipInfo['regionName'] . $ipInfo['city'] . $ipInfo['district'],
             'longitude' => $ipInfo['lon'],
             'latitude' => $ipInfo['lat'],
             'isp' => $ipInfo['isp'],
